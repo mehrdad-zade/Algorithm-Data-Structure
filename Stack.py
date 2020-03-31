@@ -6,7 +6,16 @@ https://www.geeksforgeeks.org/next-greater-element/
 
 https://www.geeksforgeeks.org/sorting-array-using-stacks/
 
-https://www.geeksforgeeks.org/c-program-for-tower-of-hanoi/
+def HanoiTower(n, Tower1, Tower2, Tower3):
+  if n==1:
+    print ("Move disk",n,"from tower",Tower1,"to tower",Tower2)
+    return
+  HanoiTower(n-1, Tower1, Tower3, Tower2)
+  print ("Move disk",n,"from tower",Tower1,"to tower",Tower2)
+  HanoiTower(n-1, Tower3, Tower2, Tower1)
 
-https://www.geeksforgeeks.org/reverse-a-stack-using-recursion/
 
+
+#------------------HanoiTower---------------------------------
+n=3
+HanoiTower(n, 'A', 'B', 'C')
