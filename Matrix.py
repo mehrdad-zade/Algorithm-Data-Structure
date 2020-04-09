@@ -18,12 +18,12 @@ class Matrix :
         if endX < 0 or endY < 0 :
             return 0
         else:
-            return 1 + min(self.minNumberOfMoves(beginX, beginY, endX-1, endY-1) + 
-                           self.minNumberOfMoves(beginX, beginY, endX-1, endY) + 
+            return 1 + min(self.minNumberOfMoves(beginX, beginY, endX-1, endY-1) +
+                           self.minNumberOfMoves(beginX, beginY, endX-1, endY) +
                            self.minNumberOfMoves(beginX, beginY, endX, endY-1))
-                    
-    
-    
+
+
+
 
 matrix = [
             [1,3,5,8],

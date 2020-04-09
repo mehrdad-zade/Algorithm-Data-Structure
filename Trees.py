@@ -37,7 +37,7 @@ class Node :
         self.data = data
         self.right = None
         self.left = None
-        
+
         self.heapifiedArray = []
 
 class Tree :
@@ -49,9 +49,9 @@ class Tree :
         return 1 + max(self.height(currentNode.right), self.height(currentNode.left))
     def isBalanced(self,currentNode):
         # a None tree is balanced
-        if currentNode is None: 
+        if currentNode is None:
             return True
-        return (self.isBalanced(currentNode.right) and self.isBalanced(currentNode.left) and 
+        return (self.isBalanced(currentNode.right) and self.isBalanced(currentNode.left) and
                 abs(self.height(currentNode.left) - self.height(currentNode.right)) <= 1)
     def inOrderTraverse(self, currentNode) :
         if currentNode is None :
@@ -64,36 +64,36 @@ class Tree :
             return 0
         left = self.maxNode(currentNode.left)
         right = self.maxNode(currentNode.right)
-        return max(left, right, currentNode.data)        
+        return max(left, right, currentNode.data)
     def levelTraverse(self, node, queue) :
         if node != None :
             queue.append(node)
         else :
             return None
-        
+
         while queue :
             n = queue.pop(0)
-            print(n.data)        
+            print(n.data)
             if n.left :
                 queue.append(n.left)
             if n.right :
                 queue.append(n.right)
-        
+
     def sumOfHeight(self, currentNode, height, sum) :
         if height > 0 :
             sum = currentNode.data
             if currentNode.left != None and currentNode.right != None:
-                return self.sumOfHeight(currentNode.left, height-1, sum) + self.sumOfHeight(currentNode.right, height-1, sum) 
+                return self.sumOfHeight(currentNode.left, height-1, sum) + self.sumOfHeight(currentNode.right, height-1, sum)
             if currentNode.right != None:
                 return self.sumOfHeight(currentNode.right, height-1, sum)
             if currentNode.left != None:
                 return self.sumOfHeight(currentNode.left, height-1, sum)
-        return sum 
+        return sum
     def heapSort(self) :
         arrLen = len(self.heapifiedArray)
         for i in range(arrLen, -1, -1) :
             self.heapify(self.heapifiedArrayarrLen, i)
-            
+
         for i in range(arrLen-1, 0, -1) :
             arr[i], arr[0] = arr[0], arr[i]
             self.heapify(arr, i, 0)
@@ -101,12 +101,12 @@ class Tree :
         largest = index
         leftChild = 2*i+1
         rightChild = 2*i+2
-        
+
         if leftChild < arrLen and arr[leftChild] > arr[index] :
             largest = leftChild
         if rightChild < arrLen and arr[rightChild] > arr[largest] :
             largest = leftChild
-            
+
         if largest != index :
             arr[index], arr[largest] = arr[largest], arr[index]
             self.heapify(arr, arrLen, largest)
@@ -116,10 +116,10 @@ class Tree :
         if currentNode.left :
             self.printLeaves(currentNode.left)
         if currentNode.right :
-            self.printLeaves(currentNode.right)       
-    
-            
-        
+            self.printLeaves(currentNode.right)
+
+
+
 '''
             1
         2       3
@@ -127,14 +127,14 @@ class Tree :
          6         7
 '''
 
-arr = [12, 11, 13, 5, 7, 6] 
-heapSort(arr) 
-n = len(arr) 
-print ("Heap Sortis") 
-for i in range(n): 
+arr = [12, 11, 13, 5, 7, 6]
+heapSort(arr)
+n = len(arr)
+print ("Heap Sortis")
+for i in range(n):
     print (arr[i])
-    
-            
+
+
 tree = Tree(1)
 tree.root.left = Node(2)
 tree.root.left.right = Node(4)
@@ -149,12 +149,11 @@ print("Tree is balanced? ", tree.isBalanced(tree.root))
 print("inorder traverse : ")
 tree.inOrderTraverse(tree.root)
 print("max data = ",tree.maxNode(tree.root))
-print("print Tree levelwise : ") 
+print("print Tree levelwise : ")
 tree.levelTraverse(tree.root,[])
 print("-------")
 print("print sum of all nodes up to height 3:", tree.root.data + tree.sumOfHeight(tree.root,2,0))#prevents double counting on the right side of the tree
 
 
-print("List of Roots: ") 
+print("List of Roots: ")
 tree.printLeaves(tree.root)
-
