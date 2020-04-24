@@ -1,6 +1,4 @@
 '''
-https://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion/
-
 https://www.geeksforgeeks.org/check-if-a-given-binary-tree-is-heap/
 
 https://www.geeksforgeeks.org/construct-tree-from-given-inorder-and-preorder-traversal/
@@ -59,6 +57,23 @@ class Tree :
         self.inOrderTraverse(currentNode.left)
         print(currentNode.data)
         self.inOrderTraverse(currentNode.right)
+    
+    def inorderTraverseStack(self,):
+        current = self.root
+        stack = []
+        print("Stackwise inorder:")
+        while True:
+            if current != None:
+                stack.append(current)
+                current = current.left
+            elif len(stack) > 0:
+                current = stack.pop()
+                print(current.data)
+                
+                current = current.right
+            else:
+                break
+            
     def maxNode(self, currentNode) :
         if currentNode == None :
             return 0
@@ -128,7 +143,7 @@ class Tree :
 '''
 
 arr = [12, 11, 13, 5, 7, 6]
-heapSort(arr)
+#heapSort(arr)
 n = len(arr)
 print ("Heap Sortis")
 for i in range(n):
@@ -157,3 +172,23 @@ print("print sum of all nodes up to height 3:", tree.root.data + tree.sumOfHeigh
 
 print("List of Roots: ")
 tree.printLeaves(tree.root)
+
+#Test Case
+tree = Tree()
+tree.root = Node(0)
+
+tree.root.left = Node(1)
+tree.root.right = Node(2)        
+
+tree.root.left.left = Node(3)
+tree.root.left.right = Node(4)
+tree.root.right.left = Node(5) 
+tree.root.right.right = Node(6)
+
+tree.root.left.left.left = Node(7)
+tree.root.right.left.right = Node(8)
+
+tree.root.right.left.right.left = Node(9)
+tree.root.right.left.right.right = Node(10)  
+
+tree.inorderTraverseStack()
