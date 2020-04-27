@@ -1,6 +1,4 @@
 '''
-https://www.geeksforgeeks.org/check-if-a-given-binary-tree-is-heap/
-
 https://www.geeksforgeeks.org/construct-tree-from-given-inorder-and-preorder-traversal/
 
 https://www.geeksforgeeks.org/check-whether-binary-tree-full-binary-tree-not/
@@ -51,29 +49,6 @@ class Tree :
             return True
         return (self.isBalanced(currentNode.right) and self.isBalanced(currentNode.left) and
                 abs(self.height(currentNode.left) - self.height(currentNode.right)) <= 1)
-    def inOrderTraverse(self, currentNode) :
-        if currentNode is None :
-            return
-        self.inOrderTraverse(currentNode.left)
-        print(currentNode.data)
-        self.inOrderTraverse(currentNode.right)
-    
-    def inorderTraverseStack(self,):
-        current = self.root
-        stack = []
-        print("Stackwise inorder:")
-        while True:
-            if current != None:
-                stack.append(current)
-                current = current.left
-            elif len(stack) > 0:
-                current = stack.pop()
-                print(current.data)
-                
-                current = current.right
-            else:
-                break
-            
     def maxNode(self, currentNode) :
         if currentNode == None :
             return 0
@@ -173,6 +148,116 @@ print("print sum of all nodes up to height 3:", tree.root.data + tree.sumOfHeigh
 print("List of Roots: ")
 tree.printLeaves(tree.root)
 
+
+#############################################################################################################################################
+
+'''
+    check if a bin tree is a heap:
+    It should be a complete tree (i.e. all levels except last should be full). 
+    Every node’s value should be greater than or equal to its child node (considering max-heap).
+'''
+
+class Node :
+    def __init__(self,data) :
+        self.data = data
+        self.right = None
+        self.left = None
+
+
+class Tree :
+    def __init__(self, data) :
+        self.root = Node(data)
+    def treeIsHeap(self,): 
+        node_count = self.count_nodes(self.root) 
+        if (self.treeIsComplete(self.root, 0, node_count) and self.heap_propert_util(self.root)): 
+            return True
+        else: 
+            return False
+        
+    def treeIsComplete(self, root, index, node_count): 
+        if root is None: 
+            return True
+        if index >= node_count: 
+            return False
+        return (self.treeIsComplete(root.left, 2 * index + 1, node_count) and self.treeIsComplete(root.right, 2 * index + 2, node_count)) 
+        
+    def count_nodes(self, root): 
+        if root is None: 
+            return 0
+        else: 
+            return (1 + self.count_nodes(root.left) + self.count_nodes(root.right)) 
+      
+    def heap_propert_util(self, root): 
+      
+        if (root.left is None and root.right is None): 
+            return True
+      
+        if root.right is None: 
+            return root.data >= root.left.data 
+        else: 
+            if (root.data >= root.left.data and root.data >= root.right.data): 
+                return (self.heap_propert_util(root.left) and self.heap_propert_util(root.right)) 
+            else: 
+                return False
+
+#Test cases            
+tree = Tree(1)
+tree.root.left = Node(2)
+tree.root.left.right = Node(4)
+tree.root.left.right.left = Node(6)
+tree.root.right = Node(3)
+tree.root.right.right = Node(5)
+tree.root.right.right.right = Node(7)
+print("Tree is a heap : ", tree.treeIsHeap())     
+
+tree2 = Tree(10)
+
+tree2.root.left = Node(8)
+tree2.root.right = Node(7)        
+
+tree2.root.left.left = Node(6)
+tree2.root.left.right = Node(5)
+tree2.root.right.left = Node(5) 
+tree2.root.right.right = Node(6)
+
+tree2.root.left.left.left = Node(4)
+print("Tree is a heap : ", tree2.treeIsHeap())          
+      
+   
+#############################################################################################################################################
+'''
+    in irder traverse of a tree using recursion and stack
+'''
+
+class Node :
+    def __init__(self,data) :
+        self.data = data
+        self.right = None
+        self.left = None
+
+class Tree :
+    def inOrderTraverse(self, currentNode) :
+        if currentNode is None :
+            return
+        self.inOrderTraverse(currentNode.left)
+        print(currentNode.data)
+        self.inOrderTraverse(currentNode.right)
+    def inorderTraverseStack(self,):
+        current = self.root
+        stack = []
+        print("Stackwise inorder:")
+        while True:
+            if current != None:
+                stack.append(current)
+                current = current.left
+            elif len(stack) > 0:
+                current = stack.pop()
+                print(current.data)
+                
+                current = current.right
+            else:
+                break
+
 #Test Case
 tree = Tree()
 tree.root = Node(0)
@@ -191,4 +276,8 @@ tree.root.right.left.right = Node(8)
 tree.root.right.left.right.left = Node(9)
 tree.root.right.left.right.right = Node(10)  
 
-tree.inorderTraverseStack()
+print("In order traverse using recursion : ", tree.inOrderTraverse(tree.root))
+print("In order traverse using recursion : ", tree.inorderTraverseStack())
+
+        
+        
