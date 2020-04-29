@@ -1,5 +1,5 @@
 '''
-https://www.geeksforgeeks.org/construct-tree-from-given-inorder-and-preorder-traversal/
+
 
 https://www.geeksforgeeks.org/check-whether-binary-tree-full-binary-tree-not/
 
@@ -280,4 +280,90 @@ print("In order traverse using recursion : ", tree.inOrderTraverse(tree.root))
 print("In order traverse using recursion : ", tree.inorderTraverseStack())
 
         
+#############################################################################################################################################        
+'''
+Construct Tree from given Inorder and Preorder traversals
+
+Let us consider the below traversals:
+
+Inorder sequence: D B E A F C
+Preorder sequence: A B D E C F
+
+In a Preorder sequence, leftmost element is the root of the tree. So we know ‘A’ is root for given sequences. By searching ‘A’ in Inorder sequence, we can find out all elements on left side of ‘A’ are in left subtree and elements on right are in right subtree. So we know below structure now.
+
+
+
+                 A
+               /   \
+             /       \
+           D B E     F C
+
+We recursively follow above steps and get the following tree.
+
+         A
+       /   \
+     /       \
+    B         C
+   / \        /
+ /     \    /
+D       E  F
+
+           
+'''        
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.right = None
+        self.left = None
+
+
+class Tree:
+    def __init__(self,):
+        self.root = None    
+    def inorderTraverse(self, node):
+        if node == None:
+            return None
+        self.inorderTraverse(node.left)
+        print(node.data)
+        self.inorderTraverse(node.right)
+    def preorderTraverse(self, node):
+        if node == None:
+            return None
+        print(node.data)
+        self.preorderTraverse(node.left)        
+        self.preorderTraverse(node.right)
+    def buildTreeFromInorderAndPreorder(self, inorder, preorder):  
+        return self.treeBuild_helper(0, 0, len(preorder)-1, inorder, preorder)
+    def treeBuild_helper(self, preorderIndex, inorderStart, inorderEnd, inorder, preorder):
+        if preorderIndex > len(preorder) - 1 or inorderStart > inorderEnd:
+            return None
         
+        root = Node(preorder[preorderIndex])
+ 
+        inorderIndex = 0
+        for i in range(len(inorder)):
+            if inorder[i] == preorder[preorderIndex]:
+                inorderIndex = i
+                break
+        
+        root.left = self.treeBuild_helper(preorderIndex + 1, inorderStart, inorderIndex - 1, inorder, preorder)
+        root.right = self.treeBuild_helper(preorderIndex + inorderIndex - inorderStart + 1, inorderIndex + 1, inorderEnd, inorder, preorder)
+
+        return root        
+
+     
+        
+
+
+
+#Test Case
+tree = Tree()
+inorder = [7, 3, 1, 4, 0, 5, 9, 8, 10, 2, 6]
+preorder = [0, 1, 3, 7, 4, 2, 5, 8, 9, 10, 6]
+
+print("Bin Tree from preorder and preorder traverse of this tree")
+print("inorder = ", tree.inorderTraverse(tree.buildTreeFromInorderAndPreorder(inorder, preorder)))
+#print("preorder = ", tree.preorderTraverse(tree.root))
+        
+#############################################################################################################################################        
