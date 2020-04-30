@@ -44,3 +44,29 @@ def findPairs(arr):
 print(findPairs([3, 4, 7, 1, 2, 9, 8]))
 
 ################################################################################
+
+'''
+given two strings compare to see if there are common substrings between them
+
+sol: create a hash array from all alphabets. go through the first string and mark the alphabet as true then
+go through the second and compare
+'''
+
+def twoStrings(s1, s2) : 
+    MAX_CHAR = 26
+    v = [0] * (MAX_CHAR) 
+      
+    #ord gives the ascci number of a char
+    for i in range(len(s1)): 
+        v[ord(s1[i]) - ord('a')] = True
+      
+    # checking common substring  
+    # of str2 in str1 
+    for i in range(len(s2)) : 
+        if (v[ord(s2[i]) - ord('a')]) : 
+            return True
+      
+    return False
+
+    
+################################################################################
