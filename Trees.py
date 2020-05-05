@@ -1,9 +1,5 @@
 '''
-
-
-https://www.geeksforgeeks.org/check-whether-binary-tree-full-binary-tree-not/
-
-https://www.geeksforgeeks.org/check-binary-tree-contains-duplicate-subtrees-size-2/
+https://www.geeksforgeeks.org/duplicate-subtree-in-binary-tree-set-2/
 
 https://www.geeksforgeeks.org/check-given-graph-tree/
 
@@ -367,3 +363,48 @@ print("inorder = ", tree.inorderTraverse(tree.buildTreeFromInorderAndPreorder(in
 #print("preorder = ", tree.preorderTraverse(tree.root))
         
 #############################################################################################################################################        
+
+'''
+find out if a tree is a full bin tree:
+    1. if it's empty
+    2. every node should have 0 or 2 childeren
+'''
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left, self.right = None, None
+
+class Tree:
+    def __init__(self,):
+        self. root = None
+    def isFullBinTree(self, root):
+        if root == None:
+            return True
+        else:
+            if root.left is not None and root.right is not None:
+                return self.isFullBinTree(root.left) and self.isFullBinTree(root.right)   
+            elif root.left == None and root.right == None:
+                return True
+            else:
+                return False
+
+#Test Case
+#you can remove 100 to see the full bin true
+tree = Tree()
+tree.root = Node(0)
+
+
+tree.root.left = Node(1)            
+tree.root.right = Node(2)
+
+tree.root.left.left = Node(3)            
+tree.root.left.right = Node(4)    
+
+tree.root.right.left = Node(100)                    
+
+
+print("Is tree a Full Bin Tree? ", tree.isFullBinTree(tree.root))
+
+#############################################################################################################################################        
+
