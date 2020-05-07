@@ -1,6 +1,4 @@
 '''
-https://www.geeksforgeeks.org/index-mapping-or-trivial-hashing-with-negatives-allowed/
-
 https://www.geeksforgeeks.org/find-whether-an-array-is-subset-of-another-array-set-1/
 
 https://www.geeksforgeeks.org/find-duplicates-given-array-elements-not-limited-range/
@@ -69,4 +67,52 @@ def twoStrings(s1, s2) :
     return False
 
     
+################################################################################
+
+'''
+Given a limited range array contains both positive and non-positive numbers, i.e., 
+elements are in the range from -MAX to +MAX. Our task is to search if some number 
+is present in the array or not in O(1) time.
+
+sol: Since range is limited, we can use index mapping (or trivial hashing). We use 
+values as the index in a big array. Therefore we can search and insert elements in O(1) time.
+
+The idea is to use a 2D array of size hash[MAX+1][2]
+
+Algorithm:
+
+Assign all the values of the hash matrix as 0.
+Traverse the given array:
+    If the element ele is non negative assign 
+        hash[ele][0] as 1.
+    Else take the absolute value of ele and 
+         assign hash[ele][1] as 1.
+'''
+maxValue = 1000
+
+def isInRange(element, arr):
+    hashMap = [
+            [None]*(maxValue+1), #keeps positive values
+            [None]*(maxValue)  #keeps ABS of negative values
+        ]
+    for e in arr:
+        if e >=0 : 
+            hashMap[0][e] = 1
+        else:
+            hashMap[1][abs(e)] = 1
+    if element >= 0:
+        if hashMap[0][element] == 1:
+            return True
+        else:
+            return False
+    else:
+        if hashMap[1][abs(element)] == 1:
+            return True
+        else:
+            return False
+        
+arr = [-1, 9, -5, -8, -5, -2] 
+element = -5
+print("Element is in arr? ", isInRange(element, arr))
+        
 ################################################################################
