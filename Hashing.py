@@ -1,11 +1,5 @@
 '''
-https://www.geeksforgeeks.org/find-whether-an-array-is-subset-of-another-array-set-1/
 
-https://www.geeksforgeeks.org/find-duplicates-given-array-elements-not-limited-range/
-
-https://www.geeksforgeeks.org/first-element-occurring-k-times-array/
-
-https://www.geeksforgeeks.org/longest-subarray-sum-divisible-k/
 
 '''
 #how many times has something been repeated in a list
@@ -159,3 +153,62 @@ arr2 = [11, 1, 13, 21, 3];
 print("is arr2 a subset of arr1? ", isSubset(arr1, arr2))
 
 ################################################################################
+
+'''
+Longest sequential/contiguous subarray with sum divisible by k
+
+Given an arr[] containing n integers and a positive integer k. The problem is to f
+ind the length of the longest subarray with sum of the elements divisible by the 
+given value k.
+
+
+
+Examples:
+
+Input : arr[] = {2, 7, 6, 1, 4, 5}, k = 3
+Output : 4
+
+sol. 
+step 1- create a dictionary. keys are values from 0 to k-1. values are empty lists.
+step 2- create contiguousSum which will hold the sum of values in arr up to index i, %k
+step 3- if contiguousSum[i] == 0, then maxLength is i+1, because the sum of sequential subarray is divisable by k up to that index
+step 4- else, add the index of i to the value of dic where the key is contiguousSum[i]
+        also, check, if maxLength is less than the first and last index added for dic[contiguousSum[i]], if so update maxLength
+        
+the complex part is step 4. because you should understand that, the array we built, contiguousSum[i], is very interesting.
+see the second test case for this explanation (arr1 and k1). the result of ontiguousSum is [2, 0, 0, 1, 2, 1]. you see 2 is 
+repeated, so one potential answer is between index 1 and 4. potential? because other repeated indexes could have a bigger size,
+and we are looking for maxLength. or maxLength could come from contiguousSum[i] == 0 condition.
+
+'''
+
+def maxLengthDivisable(arr, k):
+    n = len(arr)
+    dic = {i:[] for i in range(k)}
+    contiguousSum = [0] * n
+    tempSum = 0
+    maxLength = 0
+    for i in range(n):
+        tempSum += arr[i]
+        contiguousSum[i] = tempSum % k
+
+        if contiguousSum[i] == 0:
+            maxLength = i + 1 #because we start indexing from 0
+
+            
+        else:   
+            dic[contiguousSum[i]].append(i)
+            if len(dic[contiguousSum[i]]) > 1 and maxLength < dic[contiguousSum[i]][-1] - dic[contiguousSum[i]][0]:
+                maxLength = dic[contiguousSum[i]][-1] - dic[contiguousSum[i]][0]
+    print(contiguousSum)
+    print(dic)
+    return maxLength
+
+arr = [2, 7, 6, 1, 4, 5, 1] #test case for if condition
+k = 5
+print("What is the max length of contiguous subarray that is divisable by k? ", maxLengthDivisable(arr,k))
+
+arr1 = [2, 7, 6, 1, 4, 5] #test case for if condition
+k1 = 3
+print("What is the max length of contiguous subarray that is divisable by k1? ", maxLengthDivisable(arr1,k1))
+

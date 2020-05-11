@@ -93,6 +93,24 @@ queries = [[1, 5, 3],
            [6, 9, 1]]
 print("array addition, max occurence with added num: ", arrayManipulation(n, queries))
 
+########################################################################################################################
+
+'''
+find all the subarrays
+'''
+
+def subArrays(arr):
+    sub = [[]]
+    for i in range(len(arr)+1):
+        for j in range(i, len(arr)+1):
+            temp = arr[i:j]
+            if temp:
+                sub.append(temp)
+    return sub
+
+arr = [1, 2, 3] 
+print("sub-arrays = ", subArrays(arr)) 
+
 
 #---------------------------------Dictionaries----------------------------------------------------------------------
 
@@ -133,3 +151,5 @@ def countOfAnagramSubstring(s):
 # Driver Code
 s = "xyyx"
 print(countOfAnagramSubstring(s))
+
+
