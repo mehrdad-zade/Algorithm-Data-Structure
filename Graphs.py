@@ -321,3 +321,99 @@ print("does hamiltonian path exist? ",h2.hamiltonianPathExists(0,[],2))
 graph3 = {0:[1,3], 1:[2,3,4], 2:[1,4], 3:[0,1,4], 4:[2,1,3]}
 p = Graph(graph3)
 print("count num of paths = ", p.countPathsBetween(0,4))
+
+
+################################################################################
+
+'''
+find out if a graph is a tree too
+sol:
+    check 1 - if there is a cycle: if v has a connection to u and u is a parent of v, directly or over connection
+    check 2 - all nodes should be connected: if all nodes are visited
+    
+'''
+
+def isTree(graph, verticeCount):           
+    #if you start from any node you may not find the entire graph. you need to start from every node and
+    #if only one result comes true then the graph is a tree
+    finalDecision = []
+    for i in range(verticeCount):
+        visited = [False] * verticeCount 
+        finalDecision.append(isTree_util(graph, visited, i, [], []))
+    print(finalDecision)        
+    return True in finalDecision
+    
+def isTree_util(graph, visited, v, stack, cycleCheck):
+    visited[v] = True
+    cycleCheck.append(v)
+    #print(v)
+    if v in graph.keys():#make sure graph has a key like v before checking graph[v]
+        for u in graph[v]:#add all children to stack
+            stack.append(u)
+            if u not in cycleCheck:
+                cycleCheck.append(u)
+    #print(stack)
+    while len(stack) != 0:
+        parent = stack.pop()
+        if visited[parent] == False:
+            isTree_util(graph, visited, parent, stack, cycleCheck)
+            
+    allVerticesVisited = False
+    if False not in visited:
+        allVerticesVisited = True  
+
+    #print(cycleCheck)
+    #print(visited)          
+
+    return hasDuplicate(cycleCheck) and allVerticesVisited
+    
+def hasDuplicate(cycleCheck):
+    map = {};
+    for e in cycleCheck:
+        if e in map.keys():
+            return True
+        else:
+            map[e] = 1
+    return False
+    
+    
+                
+    
+#test case
+graph1 = {0:[2,3], 4:[0], 3:[4]}    
+visited = [False] * 5    
+print("Graph1 is a tree? ", isTree(graph1, 5))
+
+graph2 = {0:[2,3], 1:[0], 3:[4]}    
+visited = [False] * 5    
+print("Graph2 is a tree? ", isTree(graph2, 5))
+
+################################################################################
+
+def dfs(graph, verticeCount):
+    visited = [False] * verticeCount
+    #you can start from any v. here we are starting from 0
+    dfs_util(graph, visited, 0, [])
+
+def dfs_util(graph, visited, v, stack):
+    visited[v] = True
+    print(v)
+    if v in graph.keys():#make sure graph has a key like v before checking graph[v]
+        for u in graph[v]:#add all children to stack
+            stack.append(u)
+    #print(stack)
+    while len(stack) != 0:
+        parent = stack.pop()
+        if visited[parent] == False:
+            dfs_util(graph, visited, parent, stack)    
+            
+graph1 = {0:[2,3], 4:[0], 3:[4]}    
+print("Graph1 DFS : ")
+dfs(graph1, 5)
+
+graph2 = {0:[2,3], 1:[0], 3:[4]}    
+print("Graph2 DFS : ")
+dfs(graph2, 5)
+
+################################################################################
+

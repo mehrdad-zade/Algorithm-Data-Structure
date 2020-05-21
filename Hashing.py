@@ -1,7 +1,3 @@
-'''
-
-
-'''
 #how many times has something been repeated in a list
 def frequencyCount(array):
     #this can be done in java with hash
