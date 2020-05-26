@@ -3,7 +3,7 @@ Fibonacci heap
 
 https://www.geeksforgeeks.org/duplicate-subtree-in-binary-tree-set-2/
 
-https://www.geeksforgeeks.org/print-longest-leaf-leaf-path-binary-tree/
+
 
 https://www.geeksforgeeks.org/print-path-root-given-node-binary-tree/
 
@@ -408,3 +408,69 @@ print("Is tree a Full Bin Tree? ", tree.isFullBinTree(tree.root))
 
 #############################################################################################################################################        
 
+'''
+Print the longest leaf-to-leaf path in a Binary tree. 
+
+The diameter of a tree (width) is the number of nodes on the longest path 
+between two end nodes.
+
+We know that Diameter of a tree can be calculated by only using the height 
+function because the diameter of a tree is nothing but the maximum value of 
+(left_height + right_height + 1) for each node.
+Now for the node which has the maximum value of (left_height + right_height + 1), 
+we find the longest root to leaf path on the left side and similarly on the 
+right side. Finally, we print left side path, root and right side path. Time 
+Complexity is O(N). N is the number of nodes in the tree.
+
+'''
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+        
+class Tree:
+    def __init__(self, data):
+        self.root = Node(data)
+    def getDiameter_util(self, current, diameter):
+        if current is None:
+            return 0, diameter
+        left_height, diameter = self.getDiameter_util(current.left, diameter)
+        right_height, diameter = self.getDiameter_util(current.right, diameter)      
+        print("diameter=", diameter)
+        print("left_height=", left_height)
+        print("right_height=", right_height)
+        print("----------------------------")
+        maxDiameter = left_height + right_height + 1
+        diameter = max(maxDiameter, diameter)
+        return max(left_height, right_height) + 1, diameter
+        
+    def getDiameter(self, root):
+        diameter = 0
+        return self.getDiameter_util(root, diameter)[1]
+    
+#test case
+'''       
+        1
+       / \
+      2   3
+    /  \
+  4     5
+   \   / \
+    8 6   7
+   /
+  9
+ '''     
+tree = Tree(1)
+tree.root.left = Node(2); 
+tree.root.right = Node(3); 
+tree.root.left.left = Node(4); 
+tree.root.left.right = Node(5); 
+tree.root.left.right.left = Node(6); 
+tree.root.left.right.right = Node(7); 
+tree.root.left.left.right = Node(8); 
+tree.root.left.left.right.left = Node(9); 
+print("Tree diameter = ", tree.getDiameter(tree.root))   
+
+#############################################################################################################################################        
