@@ -3,11 +3,7 @@ Fibonacci heap
 
 https://www.geeksforgeeks.org/duplicate-subtree-in-binary-tree-set-2/
 
-
-
 https://www.geeksforgeeks.org/print-path-root-given-node-binary-tree/
-
-https://www.geeksforgeeks.org/find-sum-left-leaves-given-binary-tree/
 
 https://www.geeksforgeeks.org/find-sum-right-leaves-given-binary-tree/
 
@@ -474,3 +470,70 @@ tree.root.left.left.right.left = Node(9);
 print("Tree diameter = ", tree.getDiameter(tree.root))   
 
 #############################################################################################################################################        
+
+'''
+Q1. Find sum of all left leaves in a given Binary Tree
+Q2. Find sum of all left nodes  in a given Binary Tree
+'''
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+        
+class Tree:
+    def __init__(self, data):
+        self.root = Node(data)      
+        
+    def isLeaf(self, node):
+        if node == None:
+            return False
+        if node.left == None and node.right == None:
+            return True
+        return False
+    
+    def leftLeafSum(self, node):
+        sum = 0
+        if node is not None:
+            if self.isLeaf(node.left):
+                sum += node.left.data
+            else:
+                sum += self.leftLeafSum(node.left)
+            sum += self.leftLeafSum(node.right)
+        return sum
+    def leftNodeSum(self, node):
+        sum = 0
+        if node is not None:
+            if node.left is not None:
+                sum += node.left.data
+            sum += self.leftNodeSum(node.left)
+            sum += self.leftNodeSum(node.right)
+        return sum
+            
+    
+#test case
+'''
+        20
+      /    \
+     9      49
+    / \     / \
+   5   12  23  52
+         \      / \
+          12   50
+'''        
+    
+tree = Tree(20)
+tree.root.left = Node(9) 
+tree.root.right = Node(49) 
+tree.root.right.left = Node(23)         
+tree.root.right.right = Node(52) 
+tree.root.right.right.left = Node(50) 
+tree.root.left.left = Node(5) 
+tree.root.left.right = Node(12) 
+tree.root.left.right.right = Node(12) 
+print ("Sum of left leaves is ", tree.leftLeafSum(tree.root))
+print ("Sum of left nodes is ", tree.leftNodeSum(tree.root))
+
+#############################################################################################################################################        
+
