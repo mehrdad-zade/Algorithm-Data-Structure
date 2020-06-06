@@ -1,3 +1,42 @@
+#1###############################################################################
+'''
+Given a string of lower alphabet characters, count total substring of this string which are anagram to each other.
+Input  : str = “xyyx”
+Output : 4
+{“x”, “x”}, {"y", "y"}, {“xy”, “yx”}, {“xyy”, “yyx”}
+'''
+def countOfAnagramSubstring(s):
+
+    n = len(s)
+    mp = dict()
+
+    for i in range(n):
+        sb = ''
+        for j in range(i, n):
+            sb = ''.join(sorted(sb + s[j])) #from j to end keep adding the sub strings, sorted
+            print ("sb = ", sb)
+            mp[sb] = mp.get(sb, 0) #get the value of key sb, if doesn't exist return 0
+            print("map = ,mp")
+            # increase count corresponding
+            # to this dict array
+            mp[sb] += 1 # ++ the value for the key. key is one of the possible substrings
+    print (mp)
+    anas = 0
+
+    # loop over all different dictionary
+    # items and aggregate substring count
+    for k, v in mp.items():
+        anas += (v*(v-1))//2 #formula for the toal anagrams
+    return anas
+
+# Driver Code
+s = "xyyx"
+print(countOfAnagramSubstring(s))
+
+
+#2###############################################################################
+
+
 #how many times has something been repeated in a list
 def frequencyCount(array):
     #this can be done in java with hash
@@ -14,7 +53,8 @@ def frequencyCount(array):
 array = [1,3,4,2,7,5,3,2,5,1,1,7]
 frequencyCount(array)
 
-################################################################################
+#3###############################################################################
+
 #find a, b, c, d in an array where a+b = c+d
 def findPairs(arr):
   n = len(arr)
@@ -31,7 +71,7 @@ def findPairs(arr):
 #Test Case
 print(findPairs([3, 4, 7, 1, 2, 9, 8]))
 
-################################################################################
+#4###############################################################################
 
 '''
 given two strings compare to see if there are common substrings between them
@@ -40,7 +80,7 @@ sol: create a hash array from all alphabets. go through the first string and mar
 go through the second and compare
 '''
 
-def twoStrings(s1, s2) : 
+def commonSubstrings(s1, s2) : 
     MAX_CHAR = 26
     v = [0] * (MAX_CHAR) 
       
@@ -57,7 +97,7 @@ def twoStrings(s1, s2) :
     return False
 
     
-################################################################################
+#5###############################################################################
 
 '''
 Given a limited range array contains both positive and non-positive numbers, i.e., 
@@ -105,7 +145,7 @@ arr = [-1, 9, -5, -8, -5, -2]
 element = -5
 print("Element is in arr? ", isInRange(element, arr))
         
-################################################################################
+#6###############################################################################
 
 '''
 Find whether an array is subset of another array.
@@ -148,13 +188,13 @@ arr1 = [11, 1, 13, 21, 3, 7];
 arr2 = [11, 1, 13, 21, 3]; 
 print("is arr2 a subset of arr1? ", isSubset(arr1, arr2))
 
-################################################################################
+#7###############################################################################
 
 '''
 Longest sequential/contiguous subarray with sum divisible by k
 
-Given an arr[] containing n integers and a positive integer k. The problem is to f
-ind the length of the longest subarray with sum of the elements divisible by the 
+Given an arr[] containing n integers and a positive integer k. The problem is to 
+find the length of the longest subarray with sum of the elements divisible by the 
 given value k.
 
 
@@ -189,7 +229,7 @@ def maxLengthDivisable(arr, k):
         contiguousSum[i] = tempSum % k
 
         if contiguousSum[i] == 0:
-            maxLength = i + 1 #because we start indexing from 0
+            maxLength = i + 1 #because we start indexing from 0, and the sum of element up to here has %k = 0
 
             
         else:   

@@ -1,5 +1,5 @@
-#######STACK#######
-################################################################################
+
+
 def HanoiTower(n, Tower1, Tower2, Tower3):
   if n==1:
     print ("Move disk",n,"from tower",Tower1,"to tower",Tower2)
