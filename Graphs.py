@@ -2,8 +2,6 @@
 
 https://www.geeksforgeeks.org/a-search-algorithm/
 
-https://www.geeksforgeeks.org/minimum-cost-graph/?ref=leftbar-rightbar
-
 https://www.geeksforgeeks.org/traveling-salesman-problem-using-genetic-algorithm/?ref=leftbar-rightbar
 
 https://www.geeksforgeeks.org/count-total-ways-to-reach-destination-from-source-in-an-undirected-graph/?ref=leftbar-rightbar
@@ -671,3 +669,261 @@ if __name__ == '__main__':
     visited_nodes, optimal_nodes = AStarSearch()
     print('visited nodes: ' + str(visited_nodes))
     print('optimal nodes sequence: ' + str(optimal_nodes))
+
+
+################################################################################
+
+'''
+Disjoint Set Data Structures
+
+Last Updated: 07-06-2020
+Consider a situation with a number of persons and following tasks to be performed on them.
+
+Add a new friendship relation, i.e., a person x becomes friend of another person y.
+Find whether individual x is a friend of individual y (direct or indirect friend)
+Example:
+
+We are given 10 individuals say,
+a, b, c, d, e, f, g, h, i, j
+
+Following are relationships to be added.
+a <-> b  
+b <-> d
+c <-> f
+c <-> i
+j <-> e
+g <-> j
+
+And given queries like whether a is a friend of d
+or not.
+
+We basically need to create following 4 groups
+and maintain a quickly accessible connection
+among group items:
+G1 = {a, b, d}
+G2 = {c, f, i}
+G3 = {e, g, j}
+G4 = {h}
+
+########################
+
+Kruskal’s Minimum Spanning Tree Algorithm
+
+A minimum spanning tree (MST) or minimum weight spanning tree for a weighted, 
+connected and undirected graph is a spanning tree with weight less than or 
+equal to the weight of every other spanning tree.
+
+step 1: sort the edges in an ascending order and identify the source and destination node
+step 2: keep adding the nodes and edges from the smallest one until number of edges minus one
+step 3: if adding an edge creates a cycle skip it
+
+'''
+
+classSet = []
+class DisjointSet:
+    #parent is the first element of every array of the set
+    def __init__(self, item):
+        self.item = item
+        self.rank = 0      
+        classSet.append([self.item])
+        
+    def findWithRank(self, itm):
+        #if necessary it sets the parent and returns the parent's item value
+        for i in range(len(classSet)):
+            if itm.item in classSet[i]:
+                break
+        return (classSet[i][0], itm.rank)
+        
+    def union(self, itm1, itm2):
+        #combine two sets
+        parentSet = 0
+        parent1, rank1 = self.findWithRank(itm1)
+        parent2, rank2 = self.findWithRank(itm2)
+        if rank1 >= rank2:
+            parent = parent1
+            parentSet = 1
+        else:
+            parent = parent2
+            parentSet = 2
+        self.makeSet(parent, parentSet, itm1.item, itm2.item, itm1, itm2)
+         
+    def makeSet(self, parent, parentSet, itm1, itm2, obj1, obj2):
+        #find the sets in which itm1 and itm2 belong to
+        itm1SetIndex = -1
+        itm2SetIndex = -1     
+        newSet = []
+        maxRank = 0
+        for i in range(len(classSet)):
+            if itm1 in classSet[i]:
+                itm1SetIndex = i
+            if itm2 in classSet[i]:
+                itm2SetIndex = i
+            if itm1SetIndex != -1 and itm2SetIndex != -1:#if indexes were found
+                break
+        
+        if parentSet == 1:
+            classSet[itm1SetIndex].remove(parent)   
+            maxRank = obj1.rank + 1
+        elif parentSet == 2:
+            classSet[itm2SetIndex].remove(parent)
+            maxRank = obj2.rank + 1
+        newSet.append(parent)
+
+        for i in classSet[itm1SetIndex]:
+            newSet.append(i)
+        for i in classSet[itm2SetIndex]:
+            newSet.append(i)        
+        
+        classSet.pop(itm1SetIndex)
+        if itm1SetIndex < itm2SetIndex:
+            itm2SetIndex -= 1
+        classSet.pop(itm2SetIndex)  
+        
+        classSet.append(newSet)
+        
+class Kruskal_MST:
+    def __init__(self, graph):
+        self.graph = graph
+        self.DS = DisjointSet(None)
+    
+    def sortWeights(self):
+        return sorted(self.graph, key=self.weight)
+    def weight(self, touple):
+        return touple[2]
+        
+    def isCycle(self, touple):
+        for s in classSet:
+            if touple[0] in s and touple[1] in s:
+                return True
+        return False
+    
+    def addToMST(self, touple):
+        if not self.isCycle(touple):   
+            obj1 = DisjointSet(touple[0])
+            obj2 = DisjointSet(touple[1])
+            self.DS.union(obj1, obj2)
+    
+    def run(self, numberOfVertices):
+        self.graph = self.sortWeights()
+        for i in range(numberOfVertices-1):
+            self.addToMST(self.graph[i])
+        print(self.graph)
+        print(classSet)
+        
+#test case for Kruskal Algorithm
+#visual example of the data set: https://www.geeksforgeeks.org/kruskals-minimum-spanning-tree-algorithm-greedy-algo-2/
+#, (1,2,8), (7,8,7), (2,8,2), (8,6,6), (7,6,1), (6,5,2), (2,5,4), (2,3,7), (3,5,14), (3,4,9), (5,4,10)        
+krk = Kruskal_MST([(1,7,11), (0,1,4), (0,7,8)]) #union doesn't work.
+krk.run(4)    
+        
+'''        
+#test case 1 for disjoint set    
+obj1 = DisjointSet(1)       
+obj2 = DisjointSet(2)       
+obj3 = DisjointSet(3)       
+obj4 = DisjointSet(4)       
+obj5 = DisjointSet(5)       
+obj6 = DisjointSet(6)       
+obj7 = DisjointSet(7) 
+
+print(classSet)
+                
+
+obj1.union(obj1, obj2)
+obj1.union(obj2, obj3)
+obj1.union(obj4, obj5)
+obj1.union(obj6, obj7)
+obj1.union(obj5, obj6)
+obj1.union(obj3, obj7)
+    
+print(classSet)
+
+
+#test case 2 for disjoint set   
+obj1 = DisjointSet('a')       
+obj2 = DisjointSet('b')       
+obj3 = DisjointSet('c')       
+obj4 = DisjointSet('d')       
+obj5 = DisjointSet('e')       
+obj6 = DisjointSet('f')       
+obj8 = DisjointSet('g')      
+obj9 = DisjointSet('h')
+obj10 = DisjointSet('i')
+obj11 = DisjointSet('j')
+
+print(classSet)
+
+obj1.union(obj1, obj2)
+obj1.union(obj2, obj4)
+obj1.union(obj3, obj6)
+obj1.union(obj3, obj10)
+obj1.union(obj11, obj5)
+obj1.union(obj8, obj11)
+
+print(classSet)
+
+'''
+
+################################################################################
+
+'''
+Travelling salesman problem is a Hamiltonian cycle with min cost. the bruteforce solution
+is costly O(N!). 
+to make it dynamic, we want to have distinct states. for a 4 node problem, 
+mask should vary between 0000 and 1111; that's 2^N possibilities. O(2^N . N)
+
+'''
+class TravellingSalesman:
+    def __init__(self, graph, s):
+        self.graph = graph
+        self.N = len(graph)
+        self.VISISTED_ALL = (1<<self.N) -1  # 2^N
+        self.S = s#starting city
+        self.MAX = 9999
+        self.loockup = []
+        for i in range(1<<self.N):
+            new = []
+            for j in range(self.N):
+                new.append(-1)
+            self.loockup.append(new) #loockup[2^N][N] = -1
+        #print(self.dynamic)
+        
+    def minCost(self, mask, pos):
+        #if all nodes were visited (mask 1101 shows that node B is not visited yet)
+        if mask == self.VISISTED_ALL:
+            return self.graph[pos][self.S]
+        
+        #lookup checkpoint, to make the program dynamic
+        if self.loockup[mask][pos] != -1: #if the value has changed already
+            return self.loockup[mask][pos]
+        
+        ans = self.MAX
+        #traverse unvisited cities
+        for city in range(self.N):
+            
+            #if current city is not visited
+            if (mask & (1 << city)) == 0: # &: if L>R = 0; L<=R = L;
+                #distance from current city to new city, plus remaining distance 
+                #(mark city as visited in mask in recursion)
+                
+                # suppose cities are A, B, C and D. Let's have starting point at A. Mask would be 0001.
+                # going to city B, we'll do 1 left shift in city, i.e. 0010. the OR result with mask
+                # is (0001 | 0010) = 0011, meaning that A and B are visited.
+                
+                newAns = self.graph[pos][city] + self.minCost(mask|(1<<city), city) 
+                ans = min(ans, newAns)
+        self.loockup[mask][pos] = ans
+        return ans
+    
+    
+distances=[
+        [0, 20, 42, 25],
+        [20, 0, 30, 34],
+        [42, 30, 0, 10],
+        [25, 34, 10, 0]
+        ]    
+ts = TravellingSalesman(distances, 0)
+print("Travelling Salesman Cost = ", ts.minCost(1,0)) #mask=1 means city is visited, pos=0 means we start from city 0    
+
+
+################################################################################

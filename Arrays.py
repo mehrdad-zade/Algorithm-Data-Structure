@@ -47,3 +47,46 @@ def subArrays(arr):
 
 arr = [1, 2, 3] 
 print("sub-arrays = ", subArrays(arr)) 
+
+#3###############################################################################
+
+'''
+Find whether an array is subset of another array.
+
+sol: sort both arrays and compare one by one. or, sort first arr and bin search elements of second arr
+'''
+
+def isSubset(arr1, arr2):
+    arr1.sort()
+    arr2.sort()
+    
+    i = 0
+    j = 0
+    
+    n = len(arr1)
+    m = len(arr2)
+    
+    if n < m:
+        return False
+    
+    print(arr1)
+    print(arr2)
+    
+    while i < n and j < m:
+        if arr1[i] == arr2[j]:
+            i += 1
+            j += 1
+        elif arr1[i] > arr2[j]:
+            return False
+        else:
+            i += 1
+    if j < m:
+        return False
+    return True
+            
+                
+   
+
+arr1 = [11, 1, 13, 21, 3, 7]; 
+arr2 = [11, 1, 13, 21, 3]; 
+print("is arr2 a subset of arr1? ", isSubset(arr1, arr2))

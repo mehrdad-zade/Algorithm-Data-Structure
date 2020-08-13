@@ -133,62 +133,18 @@ def isInRange(element, arr):
     if element >= 0:
         if hashMap[0][element] == 1:
             return True
-        else:
-            return False
     else:
         if hashMap[1][abs(element)] == 1:
             return True
-        else:
-            return False
+    
+    return False
         
 arr = [-1, 9, -5, -8, -5, -2] 
 element = -5
 print("Element is in arr? ", isInRange(element, arr))
         
+
 #6###############################################################################
-
-'''
-Find whether an array is subset of another array.
-
-sol: sort both arrays and compare one by one. or, sort first arr and bin search elements of second arr
-'''
-
-def isSubset(arr1, arr2):
-    arr1.sort()
-    arr2.sort()
-    
-    i = 0
-    j = 0
-    
-    n = len(arr1)
-    m = len(arr2)
-    
-    if n < m:
-        return False
-    
-    print(arr1)
-    print(arr2)
-    
-    while i < n and j < m:
-        if arr1[i] == arr2[j]:
-            i += 1
-            j += 1
-        elif arr1[i] > arr2[j]:
-            return False
-        else:
-            i += 1
-    if j < m:
-        return False
-    return True
-            
-                
-   
-
-arr1 = [11, 1, 13, 21, 3, 7]; 
-arr2 = [11, 1, 13, 21, 3]; 
-print("is arr2 a subset of arr1? ", isSubset(arr1, arr2))
-
-#7###############################################################################
 
 '''
 Longest sequential/contiguous subarray with sum divisible by k
@@ -247,4 +203,3 @@ print("What is the max length of contiguous subarray that is divisable by k? ", 
 arr1 = [2, 7, 6, 1, 4, 5] #test case for if condition
 k1 = 3
 print("What is the max length of contiguous subarray that is divisable by k1? ", maxLengthDivisable(arr1,k1))
-

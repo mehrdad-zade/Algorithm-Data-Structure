@@ -5,8 +5,6 @@ https://www.geeksforgeeks.org/duplicate-subtree-in-binary-tree-set-2/
 
 https://www.geeksforgeeks.org/print-path-root-given-node-binary-tree/
 
-https://www.geeksforgeeks.org/find-sum-right-leaves-given-binary-tree/
-
 https://www.geeksforgeeks.org/sum-nodes-longest-path-root-leaf-node/
 
 https://www.geeksforgeeks.org/remove-all-nodes-which-lie-on-a-path-having-sum-less-than-k/
@@ -20,7 +18,7 @@ https://www.geeksforgeeks.org/level-maximum-number-nodes/
 https://www.geeksforgeeks.org/smallest-value-level-binary-tree/
 '''
 
-#############################################################################################################################################
+#1############################################################################################################################################
 class Node :
     def __init__(self,data) :
         self.data = data
@@ -64,16 +62,14 @@ class Tree :
             if n.right :
                 queue.append(n.right)
 
-    def sumOfLevel(self, currentNode, level, sum) :
-        if level > 0 :
-            sum = currentNode.data
-            if currentNode.left != None and currentNode.right != None:
-                return self.sumOfLevel(currentNode.left, level-1, sum) + self.sumOfLevel(currentNode.right, level-1, sum)
-            if currentNode.right != None:
-                return self.sumOfLevel(currentNode.right, level-1, sum)
-            if currentNode.left != None:
-                return self.sumOfLevel(currentNode.left, level-1, sum)
-        return sum
+    def sumOfLevel(self, current, level):
+        if current is None:
+            return 0
+        if level == 0:
+            return current.data
+        else:
+            return self.sumOfLevel(current.left, level-1) + self.sumOfLevel(current.right, level-1)
+    
 
     def printLeaves(self, currentNode) :
         if currentNode.left == None and currentNode.right == None and currentNode != None  :
@@ -107,117 +103,111 @@ print("Tree is balanced? ", tree.isBalanced(tree.root))
 
 print("levelTraverse = ", tree.levelTraverse(tree.root, []))
 
-print("Sum of nodes at level k = ", tree.sumOfLevel(tree.root, 3, 0))
+print("Sum of nodes at level 2 = ", tree.sumOfLevel(tree.root, 2))
 
 print("List of leaves : ") 
 tree.printLeaves(tree.root)
 
-#############################################################################################################################################
+#2############################################################################################################################################
 
 '''
 heap sort
 
-you have to manage an array and a tree. the tree has to be ordered such that the parent of each node is bigger than its children.
+you have to manage an array based on a full tree concept. the tree has to be ordered such that the parent of each node is bigger than its children.
 if the child is smaller you'll have to swap on the tree and then swap on the array too. once there is nothing else to swap then
 swap the root with the last element. last element will be dropped from the tree and from the array since it's at the end of the 
 array we should keep tracker to know which item is the last element on the array which hasn't already been sorted.
-this way you'll get a descending array
+this way you'll get a ascending array
 '''
 
-class Node :
-    def __init__(self,data) :
+def heapSort(arr):
+    n = len(arr)
+    #max heap
+    for i in range(n,-1,-1):
+        heapify(arr, i, n)
+    
+    #keep largest at the end
+    for i in range(n-1, 0, -1):
+        arr[0], arr[i] = arr[i], arr[0]
+        heapify(arr, 0, i)
+    
+    return arr
+
+
+    
+def heapify(arr, i, n):    
+    largest_index = i
+    l = 2 * i + 1
+    r = 2 * i + 2
+    if l < n and arr[i] < arr[l]:
+        largest_index = l
+    if r < n and arr[largest_index] < arr[r]:
+        largest_index = r
+    if largest_index != i:
+        arr[largest_index], arr[i] = arr[i], arr[largest_index]
+        heapify(arr, largest_index, n)
+    
+    
+#test cases       
+arr = [9,2,5,3,8,10,6,5,4,7]
+print(heapSort(arr))    
+
+
+
+#3############################################################################################################################################
+#sum of right leaves and right children
+
+class Node:
+    def __init__(self, data):
         self.data = data
-        self.right = None
         self.left = None
-
-
-class Tree :
-    def __init__(self, data) :
-        self.root = Node(data)
+        self.right = None
         
-    def heapify(self, arr, n, i):
-       largest = i # largest value
-       l = 2 * i + 1 # left
-       r = 2 * i + 2 # right
-       # if left child exists
-       if l < n and arr[i] < arr[l]:
-          largest = l
-       # if right child exits
-       if r < n and arr[largest] < arr[r]:
-          largest = r
-       # root
-       if largest != i:
-          arr[i],arr[largest] = arr[largest],arr[i] # swap
-          # root.
-          self.heapify(arr, n, largest)
-    # sort
-    def heapSort(self, arr):
-       n = len(arr)
-       # maxheap
-       for i in range(n, -1, -1):
-          self.heapify(arr, n, i)
-       # element extraction
-       for i in range(n-1, 0, -1):
-          arr[i], arr[0] = arr[0], arr[i] # swap
-          self.heapify(arr, i, 0)
+class Tree:
+    def __init__(self, data):
+        self.root = Node(data)
+        self.sum = 0
+
+    def sumRightLeaves(self, current):        
+        if current is None:
+            return
+        if current.right is not None:
+            if current.right.right is None and current.right.left is None:
+                self.sum += current.right.data
+        self.sumRightLeaves(current.left)
+        self.sumRightLeaves(current.right)  
+        
+    def sumRightChildren(self, current):
+        if current is None:
+            return
+        self.sumRightChildren(current.left)
+        if current.right is not None:
+            self.sum += current.right.data
+        self.sumRightChildren(current.right)        
+
+             
+        
     
-    
-#test cases
-tree = Tree(None)            
-arr = [2,5,3,8,6,5,4,7]
-tree.heapSort(arr)
-n = len(arr)
-print ("Sorted array is")
-for i in range(n):
-   print (arr[i],end=" ")
+#test case
+tree = Tree(1)  
+tree.root.left = Node(2)  
+tree.root.left.left = Node(4)  
+tree.root.left.right = Node(5)  
+tree.root.left.left.right = Node(2)  
+tree.root.right = Node(3)  
+tree.root.right.right = Node(8)  
+tree.root.right.right.left = Node(6)  
+tree.root.right.right.right = Node(7) 
+
+tree.sumRightLeaves(tree.root)    
+print("Sum of right leaves = ", tree.sum) 
+
+tree.sum = 0
+tree.sumRightChildren(tree.root)
+print("Sum of right Chilredn = ", tree.sum)
 
 
-
-
-
-#############################################################################################################################################
-
-
-
-
-
-
-#############################################################################################################################################
-
-
-
-
-#############################################################################################################################################
-
-
-
-
-
-#############################################################################################################################################
-
-
-
-
-
-#############################################################################################################################################
-
-
-
-
-
-
-#############################################################################################################################################
-
-
-
-
-
-
-#############################################################################################################################################
-
-
-
-#############################################################################################################################################
+#4############################################################################################################################################
 
 '''
     check if a bin tree is a heap:
@@ -259,7 +249,8 @@ class Tree :
       
         if (root.left is None and root.right is None): 
             return True
-      
+        
+        #if right is none only compare left. else means we have a right so we expect a left too.
         if root.right is None: 
             return root.data >= root.left.data 
         else: 
@@ -292,7 +283,7 @@ tree2.root.left.left.left = Node(4)
 print("Tree is a heap : ", tree2.treeIsHeap())          
       
    
-#############################################################################################################################################
+#5############################################################################################################################################
 '''
     in irder traverse of a tree using recursion and stack
 '''
@@ -348,7 +339,7 @@ print("In order traverse using recursion : ", tree.inOrderTraverse(tree.root))
 print("In order traverse using recursion : ", tree.inorderTraverseStack())
 
         
-#############################################################################################################################################        
+#6############################################################################################################################################        
 '''
 Construct Tree from given Inorder and Preorder traversals
 
@@ -434,7 +425,7 @@ print("Bin Tree from preorder and preorder traverse of this tree")
 print("inorder = ", tree.inorderTraverse(tree.buildTreeFromInorderAndPreorder(inorder, preorder)))
 #print("preorder = ", tree.preorderTraverse(tree.root))
         
-#############################################################################################################################################        
+#7############################################################################################################################################        
 
 '''
 find out if a tree is a full bin tree:
@@ -478,7 +469,7 @@ tree.root.right.left = Node(100)
 
 print("Is tree a Full Bin Tree? ", tree.isFullBinTree(tree.root))
 
-#############################################################################################################################################        
+#8############################################################################################################################################        
 
 '''
 Print the longest leaf-to-leaf path in a Binary tree. 
@@ -545,7 +536,7 @@ tree.root.left.left.right = Node(8);
 tree.root.left.left.right.left = Node(9); 
 print("Tree diameter = ", tree.getDiameter(tree.root))   
 
-#############################################################################################################################################        
+#9############################################################################################################################################        
 
 '''
 Q1. Find sum of all left leaves in a given Binary Tree
