@@ -2,8 +2,6 @@
 
 https://www.geeksforgeeks.org/a-search-algorithm/
 
-https://www.geeksforgeeks.org/traveling-salesman-problem-using-genetic-algorithm/?ref=leftbar-rightbar
-
 https://www.geeksforgeeks.org/count-total-ways-to-reach-destination-from-source-in-an-undirected-graph/?ref=leftbar-rightbar
 
 https://www.geeksforgeeks.org/add-and-remove-edge-in-adjacency-list-representation-of-a-graph/?ref=leftbar-rightbar
@@ -927,3 +925,49 @@ print("Travelling Salesman Cost = ", ts.minCost(1,0)) #mask=1 means city is visi
 
 
 ################################################################################
+
+'''
+Count total ways to reach destination from source in an undirected Graph. 
+
+using depth first traverse we track the visited nodes to find the path. everytime
+we calculate pathCount in recursion we visit and unvisit the node because we should
+consider the node once we go through it for one path, but then we should unvisit it
+to consider other paths that goes thrugh this node.
+
+O(n^2)
+'''
+def countofPossiblePaths(mtrx, mtrx_len, src, dest):
+    visited = [False] * (mtrx_len-1)
+    visited[src] = True
+    return countofPossiblePaths_util(mtrx, mtrx_len-1, src, dest, visited)
+    
+def countofPossiblePaths_util(mtrx, mtrx_len, src, dest, visited):
+    if src == dest:
+        return 1
+    pathCount = 0
+    for v in range(mtrx_len):
+        if mtrx[src][v] == 1 and visited[v] == False:
+            visited[v] = True
+            pathCount += countofPossiblePaths_util(mtrx, mtrx_len, v, dest, visited)
+            visited[v] = False #make source not visited for backtracking
+    return pathCount
+
+
+mtrx = [ 
+        [0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0 ], 
+        [ 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0 ], 
+        [ 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0 ], 
+        [ 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 ], 
+        [ 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0 ], 
+        [ 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0 ], 
+        [ 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0 ], 
+        [ 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0 ], 
+        [ 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0 ], 
+        [ 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0 ], 
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 ] 
+    ] 
+
+print("Number of possible pathes between 2 and 8 = ", countofPossiblePaths(mtrx, len(mtrx), 2, 8))
+
+################################################################################
+
