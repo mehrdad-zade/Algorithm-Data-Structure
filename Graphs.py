@@ -2,15 +2,7 @@
 
 https://www.geeksforgeeks.org/a-search-algorithm/
 
-https://www.geeksforgeeks.org/count-total-ways-to-reach-destination-from-source-in-an-undirected-graph/?ref=leftbar-rightbar
-
-https://www.geeksforgeeks.org/add-and-remove-edge-in-adjacency-list-representation-of-a-graph/?ref=leftbar-rightbar
-
 https://www.geeksforgeeks.org/implementing-water-supply-problem-using-breadth-first-search/?ref=leftbar-rightbar
-
-https://www.geeksforgeeks.org/minimum-cost-to-reach-from-the-top-left-to-the-bottom-right-corner-of-a-matrix/?ref=leftbar-rightbar
-
-https://www.geeksforgeeks.org/find-the-maximum-of-all-distances-to-the-nearest-1-cell-from-any-0-cell-in-a-binary-matrix/?ref=leftbar-rightbar
 
 '''
 

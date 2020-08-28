@@ -1,10 +1,6 @@
 '''
 Fibonacci heap
 
-https://www.geeksforgeeks.org/duplicate-subtree-in-binary-tree-set-2/
-
-https://www.geeksforgeeks.org/print-path-root-given-node-binary-tree/
-
 https://www.geeksforgeeks.org/sum-nodes-longest-path-root-leaf-node/
 
 https://www.geeksforgeeks.org/remove-all-nodes-which-lie-on-a-path-having-sum-less-than-k/
@@ -139,7 +135,7 @@ def heapify(arr, i, n):
     largest_index = i
     l = 2 * i + 1
     r = 2 * i + 2
-    if l < n and arr[i] < arr[l]:
+    if l < n and arr[largest_index] < arr[l]:
         largest_index = l
     if r < n and arr[largest_index] < arr[r]:
         largest_index = r
@@ -604,3 +600,77 @@ print ("Sum of left nodes is ", tree.leftNodeSum(tree.root))
 
 #############################################################################################################################################        
 
+'''
+find the sum of nodes for the lengthiest tree path
+'''
+
+class Node:
+    def __init__(self, val):
+        self.val = val
+        self.left, self.right = None, None
+        
+        
+class Tree:
+    def __init__(self, val):
+        self.root = Node(val)
+        self.maxSum = 0
+        self.maxLen = 0
+    def maxLength(self):        
+        self.maxLength_util(self.root, 0, 0)
+        return ("Length: {0} | Sum: {1}".format(self.maxLen, self.maxSum))#root has len 0
+    
+    def maxLength_util(self, current, Sum, Len):        
+        if current is None:
+            return   
+        
+        if Len > self.maxLen:
+            self.maxLen = Len
+            self.maxSum = Sum + current.val
+       
+        self.maxLength_util(current.left, Sum + current.val, Len + 1)
+        self.maxLength_util(current.right, Sum + current.val, Len + 1)        
+        
+
+    
+
+ #test case       
+t = Tree(0)
+t.root.left = Node(1)
+t.root.right = Node(2)
+
+t.root.left.left = Node(3)
+t.root.left.right = Node(4)        
+
+t.root.left.left.left = Node(300)
+t.root.left.left.right = Node(400)
+
+t.root.right.right = Node(10)
+
+t.root.right.right.left = Node(30)
+t.root.right.right.right = Node(40)  
+
+t.root.right.right.left.right = Node(5)
+#t.root.right.right.left.right.right = Node(6)
+
+
+print(t.maxLength())
+#############################################################################################################################################        
+        
+'''
+find out if a tree has a sub tree which is duplicated.
+
+you need to traverse the tree and build a table with every parent and their children
+and keep checking upon entry to chk for duplicates
+'''
+
+#############################################################################################################################################        
+
+'''
+find the path to a dest node
+
+traverse the tree in a BFS form. with a while loop and a stack, save the parent and
+childeren until you reach dest. identify the indx of dest. if it's even then find the
+parent nodes by index-2/2. if it was odd, index-1/2.
+
+'''
+#############################################################################################################################################                

@@ -1,11 +1,16 @@
 #1###############################################################################
 
 '''
-this problem gives you an array with all zeros. you have to go through the queries which provides you with a range and val. the
-val must be added to all the elements in that range. return the maximum value in the resulting arr.
-sol: add the value to the begining of the range and substract val from the end of the range + 1. then loop through the array and
-do a prefix addition (this will add the value for each of the elements within expected range. +1 for end of range is because
-you only want to add values to elements in the range inclusively, so by subtracting from end+1 you will start the next range with
+this problem gives you an array with all zeros. you have to go through 
+the queries which provides you with a range and val. the
+val must be added to all the elements in that range. return the maximum 
+alue in the resulting arr.
+sol: add the value to the begining of the range and substract val from 
+he end of the range + 1. then loop through the array and
+do a prefix addition (this will add the value for each of the elements 
+ithin expected range. +1 for end of range is because
+you only want to add values to elements in the range inclusively, so by 
+ubtracting from end+1 you will start the next range with
 prefix addition without considering the value from previous range)
 '''
 def maxRangeAdditions(n, queries):
@@ -56,37 +61,27 @@ Find whether an array is subset of another array.
 sol: sort both arrays and compare one by one. or, sort first arr and bin search elements of second arr
 '''
 
-def isSubset(arr1, arr2):
+def isSubArr(arr1, arr2):#find out if arr2 is a sub-array of arr1
+    n1 = len(arr1)
+    n2 = len(arr2)
+    if n2 > n1: # if arr2 is bigger, then it cannot be the sub-array of arr1
+        return False
     arr1.sort()
     arr2.sort()
-    
-    i = 0
     j = 0
-    
-    n = len(arr1)
-    m = len(arr2)
-    
-    if n < m:
-        return False
-    
-    print(arr1)
-    print(arr2)
-    
-    while i < n and j < m:
+    for i in range(n1):
+        print("i = ", i)
+        print("j = ", j)
         if arr1[i] == arr2[j]:
-            i += 1
             j += 1
         elif arr1[i] > arr2[j]:
             return False
-        else:
-            i += 1
-    if j < m:
+        else: # if arr1<arr2
+            continue
+    if j != n2:
         return False
     return True
-            
-                
-   
 
 arr1 = [11, 1, 13, 21, 3, 7]; 
-arr2 = [11, 1, 13, 21, 3]; 
-print("is arr2 a subset of arr1? ", isSubset(arr1, arr2))
+arr2 = [11, 1, 13, 21, 7]; 
+print("is arr2 a subset of arr1? ", isSubArr(arr1, arr2))
