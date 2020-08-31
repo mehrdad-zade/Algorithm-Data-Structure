@@ -1,8 +1,6 @@
 '''
 Fibonacci heap
 
-https://www.geeksforgeeks.org/sum-nodes-longest-path-root-leaf-node/
-
 https://www.geeksforgeeks.org/remove-all-nodes-which-lie-on-a-path-having-sum-less-than-k/
 
 https://www.geeksforgeeks.org/find-maximum-path-sum-two-leaves-binary-tree/
@@ -674,3 +672,65 @@ parent nodes by index-2/2. if it was odd, index-1/2.
 
 '''
 #############################################################################################################################################                
+'''
+remove the pathes from root where the sum of nodes on that path is less than a threshold
+'''
+
+class Node:
+    def __init__(self, val):
+        self.val = val
+        self.left, self.right = None, None
+        
+        
+class Tree:
+    def __init__(self, val):
+        self.root = Node(val)
+    def traverse(self, current):
+        if current is None:
+            return        
+        print(current.val)
+        self.traverse(current.left)
+        self.traverse(current.right)   
+        
+    def removePathLessThan(self, current, Sum, threshold):
+        if current is None: 
+            return
+        
+        #set the sum for left and right to be the parent node sum
+        l_sum = Sum + current.val
+        r_sum = l_sum         
+        #loop through the tree while setting the left and right path        
+        current.left = self.removePathLessThan(current.left, l_sum, threshold)
+        current.right = self.removePathLessThan(current.right, r_sum, threshold)        
+        #is sum is less than threshold and the current node is a leaf, remove it
+        Sum = max(l_sum, r_sum)       
+        if Sum < threshold and current.left is None and current.right is None:
+            current = None
+            
+        return current
+
+    
+#test case       
+t = Tree(0)
+t.root.left = Node(1)
+t.root.right = Node(2)
+
+t.root.left.left = Node(3)
+t.root.left.right = Node(4)        
+
+t.root.left.left.left = Node(300)
+t.root.left.left.right = Node(400)
+
+t.root.right.right = Node(10)
+
+t.root.right.right.left = Node(40)
+t.root.right.right.right = Node(30)  
+
+t.root.right.right.left.right = Node(5)
+
+print("---Tree Nodes Before Deletion:", t.traverse(t.root))
+t.removePathLessThan(t.root, 0, 43)
+print("---Tree Nodes After Deletion:", t.traverse(t.root))
+
+ #############################################################################################################################################                
+       
