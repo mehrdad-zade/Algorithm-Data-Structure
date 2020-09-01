@@ -1,8 +1,6 @@
 '''
 Fibonacci heap
 
-https://www.geeksforgeeks.org/remove-all-nodes-which-lie-on-a-path-having-sum-less-than-k/
-
 https://www.geeksforgeeks.org/find-maximum-path-sum-two-leaves-binary-tree/
 
 https://www.geeksforgeeks.org/sum-nodes-k-th-level-tree-represented-string/
@@ -734,3 +732,95 @@ print("---Tree Nodes After Deletion:", t.traverse(t.root))
 
  #############################################################################################################################################                
        
+'''
+find the path with max sum between leaves, and return the sum.
+video explaination of solution: https://www.geeksforgeeks.org/find-maximum-path-sum-two-leaves-binary-tree/
+'''
+
+class Node:
+    def __init__(self, val):
+        self.val = val
+        self.left, self.right = None, None
+        
+        
+class Tree:
+    def __init__(self, val):
+        self.root = Node(val)
+        self.maxSum = -999 #if neg val's are a possibility, initial val should the least neg val possible. otherwise we can start from zero
+    def maxSumBetweenLeaves(self):
+        self.maxSumBetweenLeaves_util(self.root)
+        return self.maxSum
+        
+    def maxSumBetweenLeaves_util(self, root):
+        if root is None:
+            return 0
+
+        if root.left is None and root.right is None:
+            return root.val
+        
+        l_side = self.maxSumBetweenLeaves_util(root.left)
+        r_side = self.maxSumBetweenLeaves_util(root.right)            
+        
+        if root.left is not None and root.right is not None:
+            self.maxSum = max(self.maxSum, l_side + r_side + root.val)
+            return max(l_side, r_side) + root.val
+        
+        if root.left is None:
+            self.maxSum = r_side + root.val
+            return self.maxSum
+        if root.right is None:
+            self.maxSum = l_side + root.val
+            return self.maxSum
+
+'''  
+ #test case       
+t = Tree(0)
+t.root.left = Node(1)
+t.root.right = Node(2)
+
+t.root.left.left = Node(3)
+t.root.left.right = Node(4)        
+
+t.root.left.left.left = Node(300)
+t.root.left.left.right = Node(400)
+
+t.root.right.right = Node(10)
+
+t.root.right.right.left = Node(40)
+t.root.right.right.right = Node(30)  
+
+t.root.right.right.left.right = Node(5)
+'''
+
+t = Tree(-15)
+t.root.left = Node(5)
+t.root.right = Node(6)
+
+t.root.left.left = Node(-8)
+t.root.left.right = Node(1)
+
+t.root.left.left.left = Node(2)
+t.root.left.left.right = Node(6)
+
+t.root.right.left = Node(3)
+t.root.right.right = Node(9)
+
+t.root.right.right.right = Node(0)
+
+t.root.right.right.right.left = Node(4)
+t.root.right.right.right.right = Node(-1)
+
+t.root.right.right.right.right.left = Node(10)
+
+
+print(t.maxSumBetweenLeaves())
+
+ #############################################################################################################################################                
+
+
+
+
+
+ #############################################################################################################################################                
+
+            
