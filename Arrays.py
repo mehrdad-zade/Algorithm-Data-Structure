@@ -85,3 +85,24 @@ def isSubArr(arr1, arr2):#find out if arr2 is a sub-array of arr1
 arr1 = [11, 1, 13, 21, 3, 7]; 
 arr2 = [11, 1, 13, 21, 7]; 
 print("is arr2 a subset of arr1? ", isSubArr(arr1, arr2))
+
+#4###############################################################################
+'''
+rotate elements of the array d times. if d=2 and array is 1,2,3,4; then one time rotation would result
+in: arry = 3,4,1,2.
+suppose d is static and you will apply it many times. write an efficient program to rotate
+the array eleemnts.
+
+Solution: you need to find the length of the array, n. and then find the GCD of n and d, gcd.
+you will create gcd number of sets. each set will contain values that are d elements appart.
+i.e. if array = 1,2,3,4,5,6,7,8,910,11,12; d=3; gcd=3; then
+set1 = {1,4,7,10}
+set2 = {2,5,8,11}
+set3 = {3,6,9,12}
+now each time you have to rotate the array by d=3 number of elements, you only have to swap
+the first and last elements of each set:
+set1 = {10,4,7,1}
+set2 = {11,5,8,2}
+set3 = {12,6,9,3}
+
+#5###############################################################################

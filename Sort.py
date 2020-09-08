@@ -62,3 +62,145 @@ arr2.sort()
 mergeArrays(arr1, arr2)
 
 ################################################################################
+'''
+merge sort: divide the arr like a bin tree up to a point where arr has 1 element.
+then start merging the elements back-up into the tree to sort the entire arr.
+
+time  : O(n lgn)
+space : O(n)
+
+below link has a good dipiction 
+
+https://en.wikipedia.org/wiki/File:Merge_sort_algorithm_diagram.svg
+'''
+def mergeSort(arr):
+    n = len(arr)
+    if n == 1:
+        return arr
+    m = int(n/2)
+    l = mergeSort(arr[:m])
+    r = mergeSort(arr[m:])    
+    return merger(l, r)
+
+def merger(l, r):
+    len_l = len(l)
+    len_r = len(r)
+    j = 0
+    i = 0
+    temp = []
+    while i < len_l and j < len_r:
+        if l[i] <= r[j]:
+            temp.append(l[i])
+            i += 1
+        else:
+            temp.append(r[j])
+            j += 1
+    while i < len_l:
+        temp.append(l[i])
+        i += 1
+    while j < len_r:
+        temp.append(r[j])
+        j += 1
+        
+    return temp
+
+#test case
+arr = [38, 27, 43, 3, 9, 82, 10]
+print("Merge Sort Result : ", mergeSort(arr))
+
+################################################################################
+'''
+heap sort
+
+time  : O(n lgn)
+space : O(1)
+
+you have to manage an array based on a full tree concept. the tree has to be ordered such that the parent of each node is bigger than its children.
+if the child is smaller you'll have to swap on the tree and then swap on the array too. once there is nothing else to swap then
+swap the root with the last element. last element will be dropped from the tree and from the array since it's at the end of the 
+array we should keep tracker to know which item is the last element on the array which hasn't already been sorted.
+this way you'll get a ascending array
+'''
+
+def heapSort(arr):
+    n = len(arr)
+    #max heap
+    for i in range(n,-1,-1):
+        heapify(arr, i, n)
+    
+    #keep largest at the end
+    for i in range(n-1, 0, -1):
+        arr[0], arr[i] = arr[i], arr[0]
+        heapify(arr, 0, i)
+    
+    return arr
+
+
+    
+def heapify(arr, i, n):    
+    largest_index = i
+    l = 2 * i + 1
+    r = 2 * i + 2
+    if l < n and arr[largest_index] < arr[l]:
+        largest_index = l
+    if r < n and arr[largest_index] < arr[r]:
+        largest_index = r
+    if largest_index != i:
+        arr[largest_index], arr[i] = arr[i], arr[largest_index]
+        heapify(arr, largest_index, n)
+    
+    
+#test cases       
+arr = [9,2,5,3,8,10,6,5,4,7]
+print(heapSort(arr))    
+
+################################################################################
+'''
+Counting Sort:
+Counting sort is a sorting technique based on keys between a specific range. 
+
+elements are in the range 1 to k
+
+time  : O(n+k)
+space : O(k)
+
+https://www.youtube.com/watch?v=7zuGmKfUt7s
+'''
+
+def countSort(arr, k):
+    n = len(arr)
+    index = [0 for i in range(k)]
+    output = [-1 for i in range(n+1)]
+    #counting reoccurences at different indexes
+    for e in arr:
+        index[e] += 1
+    
+    #sum elements at each index with prev one
+    for i in range(1,k,1):
+        index[i] += index[i-1]
+
+    #loop through arr, the indx of e in arr is in index which can be assigned to output
+    for i in range(n):
+        output[index[arr[i]]] = arr[i]
+        index[arr[i]] -= 1
+
+    return output[1:]
+
+arr = [1,4,1,2,7,5,2]
+print("Count Sort output : ", countSort(arr, 9))
+
+################################################################################
+
+
+
+'''
+Radix Sort
+What if the elements are in range from 1 to n^2? 
+We can’t use counting sort because counting sort will take O(n^2).
+The idea of Radix Sort is to do digit by digit sort starting from least 
+significant digit to most significant digit. Radix sort uses counting 
+sort as a subroutine to sort. 
+
+time  : O(nk)
+space : O(n+k)
+'''

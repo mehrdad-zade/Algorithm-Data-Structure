@@ -1,13 +1,10 @@
 '''
 Fibonacci heap
 
-https://www.geeksforgeeks.org/find-maximum-path-sum-two-leaves-binary-tree/
-
 https://www.geeksforgeeks.org/sum-nodes-k-th-level-tree-represented-string/
 
 https://www.geeksforgeeks.org/level-maximum-number-nodes/
 
-https://www.geeksforgeeks.org/smallest-value-level-binary-tree/
 '''
 
 #1############################################################################################################################################
