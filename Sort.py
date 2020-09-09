@@ -190,9 +190,6 @@ arr = [1,4,1,2,7,5,2]
 print("Count Sort output : ", countSort(arr, 9))
 
 ################################################################################
-
-
-
 '''
 Radix Sort
 What if the elements are in range from 1 to n^2? 
@@ -204,3 +201,53 @@ sort as a subroutine to sort.
 time  : O(nk)
 space : O(n+k)
 '''
+
+def radixSort(arr):
+    n = len(arr)
+    maxVal = max(arr)
+    exp = 1
+    while maxVal/exp > 0:
+        arr = countingSort_util(arr, exp, 10, n)
+        exp *= 10
+    return arr
+        
+def countingSort_util(arr, exp, k, n):
+    count = [0 for i in range(k)]
+    output = [0 for i in range(n)]
+
+    for e in arr:
+        indx = int(e / exp)
+        count[indx%k] += 1
+
+    for i in range(1,k):
+        count[i] += count[i-1]
+        
+    i = n - 1
+    while i >= 0:
+        indx = int(arr[i]/exp)
+        output[count[indx%k] - 1] = arr[i]
+        count[indx%k] -= 1
+        i -= 1
+    return output
+
+arr = [170, 45, 75, 90, 802, 24, 2, 66]
+print("Count Sort output : ", radixSort(arr))
+
+################################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
