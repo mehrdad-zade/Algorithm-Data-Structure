@@ -2,8 +2,6 @@
 
 https://www.geeksforgeeks.org/a-search-algorithm/
 
-https://www.geeksforgeeks.org/implementing-water-supply-problem-using-breadth-first-search/?ref=leftbar-rightbar
-
 '''
 
 class Graph:
@@ -706,6 +704,17 @@ equal to the weight of every other spanning tree.
 step 1: sort the edges in an ascending order and identify the source and destination node
 step 2: keep adding the nodes and edges from the smallest one until number of edges minus one
 step 3: if adding an edge creates a cycle skip it
+
+Greedy algorithms are used for optimization problems; At every step, we can 
+make a choice that looks best at the moment, and we get the optimal solution 
+of the complete problem.
+Greedy algorithms are in general more efficient than other techniques like Dynamic 
+Programming.
+Some of the standard Greedy Algo's:
+1) Kruskal’s Minimum Spanning Tree (MST)
+2) Prim’s Minimum Spanning Tree
+3) Dijkstra’s Shortest Path
+4) Huffman Coding   
 
 '''
 

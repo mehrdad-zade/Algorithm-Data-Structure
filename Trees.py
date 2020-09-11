@@ -99,47 +99,7 @@ tree.printLeaves(tree.root)
 
 #2############################################################################################################################################
 
-'''
-heap sort
 
-you have to manage an array based on a full tree concept. the tree has to be ordered such that the parent of each node is bigger than its children.
-if the child is smaller you'll have to swap on the tree and then swap on the array too. once there is nothing else to swap then
-swap the root with the last element. last element will be dropped from the tree and from the array since it's at the end of the 
-array we should keep tracker to know which item is the last element on the array which hasn't already been sorted.
-this way you'll get a ascending array
-'''
-
-def heapSort(arr):
-    n = len(arr)
-    #max heap
-    for i in range(n,-1,-1):
-        heapify(arr, i, n)
-    
-    #keep largest at the end
-    for i in range(n-1, 0, -1):
-        arr[0], arr[i] = arr[i], arr[0]
-        heapify(arr, 0, i)
-    
-    return arr
-
-
-    
-def heapify(arr, i, n):    
-    largest_index = i
-    l = 2 * i + 1
-    r = 2 * i + 2
-    if l < n and arr[largest_index] < arr[l]:
-        largest_index = l
-    if r < n and arr[largest_index] < arr[r]:
-        largest_index = r
-    if largest_index != i:
-        arr[largest_index], arr[i] = arr[i], arr[largest_index]
-        heapify(arr, largest_index, n)
-    
-    
-#test cases       
-arr = [9,2,5,3,8,10,6,5,4,7]
-print(heapSort(arr))    
 
 
 
@@ -814,9 +774,46 @@ print(t.maxSumBetweenLeaves())
 
  #############################################################################################################################################                
 
+'''
+Greedy algorithms are used for optimization problems; At every step, we can 
+make a choice that looks best at the moment, and we get the optimal solution 
+of the complete problem.
+Greedy algorithms are in general more efficient than other techniques like Dynamic 
+Programming.
+Some of the standard Greedy Algo's:
+1) Kruskal’s Minimum Spanning Tree (MST)
+2) Prim’s Minimum Spanning Tree
+3) Dijkstra’s Shortest Path
+4) Huffman Coding    
+'''
 
+'''
+Huffman coding
 
+it's a greedy algorithm that compresses data without loosing info. it's based on 
+length and frequency of code. variable length code is known as prefix code.
 
+char       code       frequency       total bits = code length x frequency
+A          000        10              30
+G          010        15              45
+                                     -------
+                                     total = 75 ---> we want to minimize number of bits
+                                     
+reduce number of bits without loosing any info.
+
+1- create Huffman Tree
+
+a) the char's will be the tree leaves.                                     
+b) each left traverse is of val 0 and each right is of 1
+c) assign new codes to char : traverse left and right to get to the leaf (char) and everytime
+add the value of the path (0 or 1) to the right of the string of the code    
+
+2- reduce code tree for the high frequency char's
+see how to reduce the tree: https://www.youtube.com/watch?v=dM6us854Jk0
+
+python code: https://bhrigu.me/blog/2017/01/17/huffman-coding-python-implementation/
+
+'''
 
  #############################################################################################################################################                
 

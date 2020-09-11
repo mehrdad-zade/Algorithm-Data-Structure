@@ -1,3 +1,9 @@
+'''
+find the k's largest/smallest val
+https://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array/
+'''
+
+
 #sort a touple of touples based on the first elements
 def sortElementWise(touples):
     #first is a function
@@ -234,7 +240,48 @@ arr = [170, 45, 75, 90, 802, 24, 2, 66]
 print("Count Sort output : ", radixSort(arr))
 
 ################################################################################
+'''
+Interpolation Search:
+it's better than binary search if array is sorted and uniformly distributed.
+average O(log(logn)); worst O(n)
+'''
 
+def interpolationSearch(arr, key):
+    end = len(arr) - 1
+    begin = 0
+    
+    while arr[begin] != arr[end] and key >= arr[begin] and key <= arr[end]:
+        mid = int(begin + ((key - arr[begin]) * (end - begin) / (arr[end] - arr[begin])))
+        
+        if key > arr[mid]:
+            begin = mid + 1
+        elif key < arr[mid]:
+            end = mid -1
+        else:
+            return "Found"
+    if key == arr[begin]:
+        return "Found"
+    else:
+        return "Not Found"
+    
+
+arr = [2, 4, 5, 6, 8, 10, 11, 15, 16]
+print("Does key exisits in arr? ", interpolationSearch(arr, 10))
+################################################################################
+'''
+Search in an almost sorted array?
+Basically the element arr[i] can only be swapped with either 
+arr[i+1] or arr[i-1] to get a fully sorted array. or example 
+consider the array {2, 3, 10, 4, 40}
+
+A simple solution is to linearly search the given key in given array. 
+Time complexity of this solution is O(n). We can modify binary search 
+to do it in O(Logn) time.
+
+The idea is to compare the key with middle 3 elements, if present then 
+return the index. If not present, then compare the key with middle element 
+to decide whether to go in left half or right half.
+'''           
 
 
 
