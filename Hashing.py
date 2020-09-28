@@ -1,6 +1,7 @@
 #1###############################################################################
 '''
-Given a string of lower alphabet characters, count total substring of this string which are anagram to each other.
+Given a string of lower alphabet characters, count total substring of 
+this string which are anagram to each other.
 Input  : str = “xyyx”
 Output : 4
 {“x”, “x”}, {"y", "y"}, {“xy”, “yx”}, {“xyy”, “yyx”}

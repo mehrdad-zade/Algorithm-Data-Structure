@@ -22,7 +22,7 @@ class Graph :
             visitedVertices[minValueIndex] = True
 
 
-            for v in range(self.numOfVertices) :
+            for v in range( .numOfVertices) :
                 if self.graph[minValueIndex][v] > 0 and visitedVertices[v] == False and shortestPathArray[v] > shortestPathArray[minValueIndex] + self.graph[minValueIndex][v] :
                     shortestPathArray[v] = shortestPathArray[minValueIndex] + self.graph[minValueIndex][v]
 
@@ -79,3 +79,12 @@ print("minTravelCost 1 = ", minTravelCost(citiesCostArray1))
 print("minTravelCost 2 = ", minTravelCost(citiesCostArray2))
 
 ################################################################################
+'''
+given n number of cities and the distances between them. find k cities where k data centres
+can be placed in them, while the distance from other cities are minimized.
+
+start from any city, and choose its counterpart as the farthest city. then calculate the min
+distance of all other cities from these two.
+
+repeat the same for all other cities and find the min distance.
+'''

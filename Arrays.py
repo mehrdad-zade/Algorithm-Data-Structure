@@ -106,3 +106,112 @@ set2 = {11,5,8,2}
 set3 = {12,6,9,3}
 
 #5###############################################################################
+'''
+Job sequencing O(n^2)
+
+greedy algorithm
+
+we get a list of jobs with IDs, deadline (in unit of time), and profit.
+
+JobID  Deadline  Profit
+  a      4        20   
+  b      1        10
+  c      1        40  
+  d      1        30
+  
+we want to maximize profit if only one job can be scheduled at a time.
+
+solution is to sort the table based on profit. 
+take the highest value and check the deadline. if it's 3 for instance, you have to put the ID
+in an array on the third slot. if third slot is full, go one back until you cannot go further back.
+if there is no place to put it then we should skip the job  
+'''
+
+def jobSequencing(jobs):
+    n = len(jobs)
+    temp_sequence = [0 for i in range(n)]
+    jobs_sorted = sortJobsOnProfit(jobs)
+
+    for i in range(n-1, -1, -1):
+
+        j = jobs_sorted[i][1] - 1
+      
+        while j >= 0 :
+            if temp_sequence[j] == 0:
+                temp_sequence[j] = jobs_sorted[i][0]
+                break
+            j -= 1
+    sequence = []
+    for e in temp_sequence :
+        if e != 0:
+            sequence.append(e)
+    return sequence
+    
+def sortJobsOnProfit(jobs):
+    return sorted(jobs, key = lambda j : j[2])
+    
+    
+jobs = [['a',4,20], 
+        ['b', 1, 10],
+        ['c', 1, 40],
+        ['d', 1, 30]
+        ]    
+
+print("Job Sequence to Maximize Profit : ", jobSequencing(jobs))
+
+
+##############################################################################
+'''
+Given two strings str1 and str2 and below operations that can performed on str1. 
+Find minimum number of edits (operations) required to convert ‘str1’ into ‘str2’.
+
+Insert
+Remove
+Replace
+
+Input:   str1 = "geek", str2 = "gesek"
+Output:  1
+We can convert str1 into str2 by inserting a 's'.
+
+Dynamic Programming 
+
+'''
+def editDistDP(str1, str2, m, n): 
+    # Create a table to store results of subproblems 
+    dp = [[0 for x in range(n + 1)] for x in range(m + 1)] 
+  
+    # Fill d[][] in bottom up manner 
+    for i in range(m + 1): 
+        for j in range(n + 1): 
+  
+            # If first string is empty, only option is to 
+            # insert all characters of second string 
+            if i == 0: 
+                dp[i][j] = j    # Min. operations = j 
+  
+            # If second string is empty, only option is to 
+            # remove all characters of second string 
+            elif j == 0: 
+                dp[i][j] = i    # Min. operations = i 
+  
+            # If last characters are same, ignore last char 
+            # and recur for remaining string 
+            elif str1[i-1] == str2[j-1]: 
+                dp[i][j] = dp[i-1][j-1] 
+  
+            # If last character are different, consider all 
+            # possibilities and find minimum 
+            else: 
+                dp[i][j] = 1 + min(dp[i][j-1],        # Insert 
+                                   dp[i-1][j],        # Remove 
+                                   dp[i-1][j-1])    # Replace 
+    print(dp)
+    return dp[m][n] 
+  
+# test case 
+str1 = "mehrdad"
+str2 = "m"
+
+print(editDistDP(str1, str2, len(str1), len(str2))) 
+
+##############################################################################
