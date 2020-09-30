@@ -268,3 +268,68 @@ m = len(arr)
 n = 4
 print(count2(arr, m, n))
 #########################################################################################
+'''
+Matrix Chain Multiplication | DP-8
+
+Last Updated: 25-08-2020
+Given a sequence of matrices, find the most efficient way to multiply these matrices together. The problem is not actually to perform the multiplications, but merely to decide in which order to perform the multiplications.
+
+We have many options to multiply a chain of matrices because matrix multiplication is associative. In other words, no matter how we parenthesize the product, the result will be the same. For example, if we had four matrices A, B, C, and D, we would have:
+
+    (ABC)D = (AB)(CD) = A(BCD) = ....
+However, the order in which we parenthesize the product affects the number of simple arithmetic operations needed to compute the product, or the efficiency. For example, suppose A is a 10 × 30 matrix, B is a 30 × 5 matrix, and C is a 5 × 60 matrix. Then,
+
+    (AB)C = (10×30×5) + (10×5×60) = 1500 + 3000 = 4500 operations
+    A(BC) = (30×5×60) + (10×30×60) = 9000 + 18000 = 27000 operations.
+
+
+ Input: p[] = {40, 20, 30, 10, 30}   
+  Output: 26000  
+  There are 4 matrices of dimensions 40x20, 20x30, 30x10 and 10x30.
+  Let the input 4 matrices be A, B, C and D.  The minimum number of 
+  multiplications are obtained by putting parenthesis in following way
+  (A(BC))D --> 20*30*10 + 40*20*10 + 40*10*30    
+'''
+
+# A naive recursive implementation that 
+# simply follows the above optimal  
+# substructure property. there is a complex dynamic solution to it too
+import sys 
+  
+# Matrix A[i] has dimension p[i-1] x p[i] 
+# for i = 1..n 
+def MatrixChainOrder(p, i, j): 
+  
+    if i == j: 
+        return 0
+  
+    _min = sys.maxsize 
+      
+    # place parenthesis at different places  
+    # between first and last matrix,  
+    # recursively calculate count of 
+    # multiplications for each parenthesis 
+    # placement and return the minimum count 
+    for k in range(i, j): 
+      
+        count = (MatrixChainOrder(p, i, k)  
+             + MatrixChainOrder(p, k + 1, j) 
+                   + p[i-1] * p[k] * p[j]) 
+  
+        if count < _min: 
+            _min = count; 
+      
+  
+    # Return minimum count 
+    return _min; 
+  
+  
+# Driver program to test above function 
+arr = [1, 2, 3, 4, 3]; 
+n = len(arr); 
+  
+print("Minimum number of multiplications is ", 
+                MatrixChainOrder(arr, 1, n-1)); 
+
+#########################################################################################
+                
