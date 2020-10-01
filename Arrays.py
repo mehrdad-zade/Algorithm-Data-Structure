@@ -389,7 +389,76 @@ print("Knapsack Dynamic answer : ", knapSack_dynamic(val, wt, W, n))
 
 #########################################################################################
 
+'''
+Floyd Warshall Algorithm | 
 
+The Floyd Warshall Algorithm is for solving the All Pairs Shortest Path problem. 
+The problem is to find shortest distances between every pair of vertices in a given 
+edge weighted directed Graph.
+
+Example:
+
+Input:
+       graph[][] = { {0,   5,  INF, 10},
+                    {INF,  0,  3,  INF},
+                    {INF, INF, 0,   1},
+                    {INF, INF, INF, 0} }
+which represents the following graph
+             10
+       (0)------->(3)
+        |         /|\
+      5 |          |
+        |          | 1
+       \|/         |
+       (1)------->(2)
+            3       
+Note that the value of graph[i][j] is 0 if i is equal to j 
+And graph[i][j] is INF (infinite) if there is no edge from vertex i to j.
+
+Output:
+Shortest distance matrix
+      0      5      8      9
+    INF      0      3      4
+    INF    INF      0      1
+    INF    INF    INF      0
+
+solution: it builds a graph, fw_result, from the main graph. the pathes will be updated here.
+we go through every possible path, and assume the path is a way for two V's to connect. if that
+was the case, we'll compare the current cost fw_result[i][j], with the fw_result[i][k] + fw_result[k][j]
+which ever was smaller will be the new cost.
+
+'''
+import sys
+def floydWarshall(graph, n): 
+    fw_result = graph
+    
+    for k in range(n):
+        for i in range(n):
+            for j in range(n):
+                if fw_result[i][j] is None:
+                    base = sys.maxsize
+                else:
+                    base = fw_result[i][j]
+                if fw_result[i][k] is None:
+                    midPath1 = sys.maxsize
+                else:
+                    midPath1 = fw_result[i][k]                    
+                if fw_result[k][j] is None:
+                    midPath2 = sys.maxsize
+                else:
+                    midPath2 = fw_result[k][j]
+                fw_result[i][j] = min(base, midPath1 + midPath2 )
+                if fw_result[i][j] > 999:
+                    fw_result[i][j] = None
+    return fw_result
+                
+#test case    
+graph = [[0,5,None,10], 
+             [None,0,3,None], 
+             [None, None, 0,   1], 
+             [None, None, None, 0] 
+        ] 
+print(floydWarshall(graph, len(graph)))
 
 
 
