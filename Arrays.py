@@ -332,4 +332,74 @@ print("Minimum number of multiplications is ",
                 MatrixChainOrder(arr, 1, n-1)); 
 
 #########################################################################################
+'''
+0-1 Knapsack Problem | DP-10
+
+Given weights and values of n items, put these items in a knapsack of capacity W to 
+get the maximum total value in the knapsack. In other words, given two integer arrays 
+val[0..n-1] and wt[0..n-1] which represent values and weights associated with n items 
+respectively. Also given an integer W which represents knapsack capacity, find out the 
+maximum value subset of val[] such that sum of the weights of this subset is smaller 
+than or equal to W. You cannot break an item, either pick the complete item or don’t 
+pick it (0-1 property).
+
+recursive solution : Time Complexity: O(2^n).
+dynamic solution : Time Complexity: O(nw).
+'''
+
+def knapSack_recursive(value, weight, availableSize, numberOfItems):
+    if numberOfItems <= 0 or availableSize <= 0: 
+        return 0
+    
+    if weight[numberOfItems-1] > availableSize:
+        return knapSack_recursive(value, weight, availableSize, numberOfItems-1)
+    
+    else:
+        #nth item included or not
+        return max( 
+            value[numberOfItems-1] + knapSack_recursive( 
+                value, weight, availableSize-weight[numberOfItems-1], numberOfItems-1),  
+                knapSack_recursive(value, weight, availableSize, numberOfItems-1)) 
+            
+            
+            
+            
+def knapSack_dynamic(value, weight, availableSize, numberOfItems):
+    k = [[0 for i in range(availableSize+1)] for j in range(numberOfItems+1)]
+    
+    for i in range(numberOfItems+1):
+        for w in range(availableSize+1):
+            if i == 0 or w == 0:
+                k[i][w] = 0
+            elif weight[i-1] <= w:
+                k[i][w] = max(value[i-1] + k[i-1][w-weight[i-1]] , k[i-1][w])
+            else:
+                k[i][w] = k[i-1][w]
                 
+    return k[n][w]
+    
+    
+    
+val = [60, 100, 120] 
+wt = [10, 20, 30] 
+W = 49
+n = len(val) 
+print("Knapsack Recursize answer : ", knapSack_recursive(val, wt, W, n))
+print("Knapsack Dynamic answer : ", knapSack_dynamic(val, wt, W, n))
+
+#########################################################################################
+
+
+
+
+
+
+#########################################################################################
+
+
+
+
+
+
+
+#########################################################################################
