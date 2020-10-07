@@ -1,4 +1,13 @@
 '''
+a sorting algorithm with O(n) is not algorithmically possible. however, since the best algorithm
+will take O(N lgN) time, if we have lgN number of processors, then we can complete the sorting
+in O(N)
+'''
+
+
+################################################################################
+
+'''
 find the k's largest/smallest val
 https://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array/
 '''
