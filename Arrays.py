@@ -538,7 +538,89 @@ print("Arr can be partitioned? ", partition(arr))
 
 
 #########################################################################################
+'''
+Maximum size square sub-matrix with all 1s:
+    
+Given a binary matrix, find out the maximum size square sub-matrix with all 1s.
 
+For example, consider the below binary matrix.
+M[R][C] = [         [0, 1, 1, 0, 1],  
+                    [1, 1, 0, 1, 0],  
+                    [0, 1, 1, 1, 0],  
+                    [1, 1, 1, 1, 0],  
+                    [1, 1, 1, 1, 1],  
+                    [0, 0, 0, 0, 0]];  
+maximum-size-square-sub-matrix-with-all-1s is 3.
+
+solution dynamic programming:
+    1 - create an auxilery matrix. it starts with all the values from 1st row and column. 
+        also, all 0's from M will be added. all else will be blank.
+        
+        aux[R][C] = [[0, 1, 1, 0, 1],  
+                     [1, _, 0, _, 0],  
+                     [0, _, _, _, 0],  
+                     [1, _, _, _, 0],  
+                     [1, _, _, _, _],  
+                     [0, 0, 0, 0, 0]];  
+
+    2 - find the minimum of (top, top left, and buttom left) + 1, for all blank values
+    
+   0  1  1  0  1
+   1  1  0  1  0
+   0  1  1  1  0
+   1  1  2  2  0
+   1  2  2  3  1
+   0  0  0  0  0
+    
+    3 - find the max value in aux
+    4 - based on the position of max value you can identify the requested square
+    
+time complexity: O(RC)
+'''
+def maxSizeSquare(M):
+    
+    R = len(M) #number of columns
+    C = len(M[0])    #number of rows
+    
+    aux = [[None for i in range(C)] for j in range(R)]
+    
+    aux[0] = M[0]
+    
+    for i in range(R):
+        aux[i][0] = M[i][0]
+        
+    for i in range(1, R):
+        for j in range(1, C):            
+            if M[i][j] == 0:
+                aux[i][j] = 0
+            
+            
+    for i in range(1, R):
+        for j in range(1, C):            
+            if M[i][j] == 1:
+                aux[i][j] = min(aux[i][j-1], aux[i-1][j], aux[i-1][j-1]) + 1
+            else:
+                aux[i][j] = 0
+                
+    _max = 0
+    for i in range(R):
+        for j in range(C): 
+            if aux[i][j]  > _max:
+                _max = aux[i][j]
+                
+    
+        
+    return(_max)
+        
+        
+M =          [[0, 1, 1, 0, 1],  
+                    [1, 1, 0, 1, 0],  
+                    [0, 1, 1, 1, 0],  
+                    [1, 1, 1, 1, 0],  
+                    [1, 1, 1, 1, 1],  
+                    [0, 0, 0, 0, 0]]
+            
+maxSizeSquare(M)            
 
 
 
