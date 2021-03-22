@@ -99,11 +99,6 @@ tree.printLeaves(tree.root)
 
 #2############################################################################################################################################
 
-
-
-
-
-#3############################################################################################################################################
 #sum of right leaves and right children
 
 class Node:
@@ -155,8 +150,7 @@ tree.sum = 0
 tree.sumRightChildren(tree.root)
 print("Sum of right Chilredn = ", tree.sum)
 
-
-#4############################################################################################################################################
+#3############################################################################################################################################
 
 '''
     check if a bin tree is a heap:
@@ -231,8 +225,7 @@ tree2.root.right.right = Node(6)
 tree2.root.left.left.left = Node(4)
 print("Tree is a heap : ", tree2.treeIsHeap())          
       
-   
-#5############################################################################################################################################
+ #4############################################################################################################################################
 '''
     in irder traverse of a tree using recursion and stack
 '''
@@ -287,8 +280,8 @@ tree.root.right.left.right.right = Node(10)
 print("In order traverse using recursion : ", tree.inOrderTraverse(tree.root))
 print("In order traverse using recursion : ", tree.inorderTraverseStack())
 
-        
-#6############################################################################################################################################        
+#5############################################################################################################################################
+      
 '''
 Construct Tree from given Inorder and Preorder traversals
 
@@ -373,8 +366,8 @@ preorder = [0, 1, 3, 7, 4, 2, 5, 8, 9, 10, 6]
 print("Bin Tree from preorder and preorder traverse of this tree")
 print("inorder = ", tree.inorderTraverse(tree.buildTreeFromInorderAndPreorder(inorder, preorder)))
 #print("preorder = ", tree.preorderTraverse(tree.root))
-        
-#7############################################################################################################################################        
+  
+#6############################################################################################################################################        
 
 '''
 find out if a tree is a full bin tree:
@@ -418,7 +411,7 @@ tree.root.right.left = Node(100)
 
 print("Is tree a Full Bin Tree? ", tree.isFullBinTree(tree.root))
 
-#8############################################################################################################################################        
+#7############################################################################################################################################        
 
 '''
 Print the longest leaf-to-leaf path in a Binary tree. 
@@ -485,7 +478,7 @@ tree.root.left.left.right = Node(8);
 tree.root.left.left.right.left = Node(9); 
 print("Tree diameter = ", tree.getDiameter(tree.root))   
 
-#9############################################################################################################################################        
+#8############################################################################################################################################        
 
 '''
 Q1. Find sum of all left leaves in a given Binary Tree
@@ -551,7 +544,7 @@ tree.root.left.right.right = Node(12)
 print ("Sum of left leaves is ", tree.leftLeafSum(tree.root))
 print ("Sum of left nodes is ", tree.leftNodeSum(tree.root))
 
-#############################################################################################################################################        
+#9############################################################################################################################################        
 
 '''
 find the sum of nodes for the lengthiest tree path
@@ -607,7 +600,7 @@ t.root.right.right.left.right = Node(5)
 
 
 print(t.maxLength())
-#############################################################################################################################################        
+#10############################################################################################################################################        
         
 '''
 find out if a tree has a sub tree which is duplicated.
@@ -616,7 +609,7 @@ you need to traverse the tree and build a table with every parent and their chil
 and keep checking upon entry to chk for duplicates
 '''
 
-#############################################################################################################################################        
+#11############################################################################################################################################        
 
 '''
 find the path to a dest node
@@ -626,7 +619,7 @@ childeren until you reach dest. identify the indx of dest. if it's even then fin
 parent nodes by index-2/2. if it was odd, index-1/2.
 
 '''
-#############################################################################################################################################                
+#12############################################################################################################################################                
 '''
 remove the pathes from root where the sum of nodes on that path is less than a threshold
 '''
@@ -687,7 +680,7 @@ print("---Tree Nodes Before Deletion:", t.traverse(t.root))
 t.removePathLessThan(t.root, 0, 43)
 print("---Tree Nodes After Deletion:", t.traverse(t.root))
 
- #############################################################################################################################################                
+#13############################################################################################################################################                
        
 '''
 find the path with max sum between leaves, and return the sum.
@@ -772,7 +765,7 @@ t.root.right.right.right.right.left = Node(10)
 
 print(t.maxSumBetweenLeaves())
 
- #############################################################################################################################################                
+ #14############################################################################################################################################                
 
 '''
 Greedy algorithms are used for optimization problems; At every step, we can 
@@ -815,6 +808,70 @@ python code: https://bhrigu.me/blog/2017/01/17/huffman-coding-python-implementat
 
 '''
 
- #############################################################################################################################################                
+ #15############################################################################################################################################                
 
-            
+'''
+Given a non-empty binary tree, print the average value of the nodes on each level.
+
+sol.
+- use two while loops
+- the outer one is for resetting things
+- the inner one is for summing and counting
+- temp will accumulate the nodes in one level and pass it to q
+'''
+
+from queue import Queue 
+  
+# Helper class that allocates a  
+# new node with the given data and  
+# None left and right pointers.  
+class newNode: 
+    def __init__(self, data): 
+        self.val = data  
+        self.left = self.right = None
+      
+# Function to print the average value  
+# of the nodes on each level  
+def averageOfLevels(root): 
+  
+    # Traversing level by level  
+    q = Queue() 
+    q.put(root)  
+    while (not q.empty()): 
+  
+        # Compute Sum of nodes and  
+        # count of nodes in current  
+        # level.  
+        Sum = 0
+        count = 0
+        temp = Queue()  
+        while (not q.empty()):  
+            n = q.queue[0]  
+            q.get()  
+            Sum += n.val  
+            count += 1
+            if (n.left != None): 
+                temp.put(n.left)  
+            if (n.right != None):  
+                temp.put(n.right) 
+        q = temp  
+        print((Sum * 1.0 / count), end = " ") 
+  
+# Driver code  
+if __name__ == '__main__': 
+  
+    # Let us construct a Binary Tree  
+    #     4  
+    # / \  
+    # 2 9  
+    # / \ \  
+    # 3 5 7  
+    root = None
+    root = newNode(4)  
+    root.left = newNode(2)  
+    root.right = newNode(9)  
+    root.left.left = newNode(3)  
+    root.left.right = newNode(8)  
+    root.right.right = newNode(7)  
+    averageOfLevels(root) 
+  

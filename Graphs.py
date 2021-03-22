@@ -1,7 +1,7 @@
+#1##########################################################################################
+
 '''
-
 https://www.geeksforgeeks.org/a-search-algorithm/
-
 '''
 
 class Graph:
@@ -324,7 +324,7 @@ p = Graph(graph3)
 print("count num of paths = ", p.countPathsBetween(0,4))
 
 
-################################################################################
+#2###############################################################################
 
 '''
 find out if a graph is a tree too
@@ -389,7 +389,7 @@ graph2 = {0:[2,3], 1:[0], 3:[4]}
 visited = [False] * 5    
 print("Graph2 is a tree? ", isTree(graph2, 5))
 
-################################################################################
+#3###############################################################################
 
 def dfs(graph, verticeCount):
     visited = [False] * verticeCount
@@ -416,7 +416,7 @@ graph2 = {0:[2,3], 1:[0], 3:[4]}
 print("Graph2 DFS : ")
 dfs(graph2, 5)
 
-################################################################################
+#4###############################################################################
 
 '''
 DFS: find a node given the starting position
@@ -464,7 +464,7 @@ if __name__ == '__main__':
     print('Optimal solution: ' + str(solution))
     print('visited nodes: ' + str(visited_nodes))
 
-################################################################################
+#5###############################################################################
 
 
 '''
@@ -524,7 +524,7 @@ if __name__ == '__main__':
     print('Optimal solution: ' + str(solution))
     print('Visited nodes: ' + str(nodes_visited))
 
-################################################################################
+#6###############################################################################
 
 
 '''
@@ -659,7 +659,7 @@ if __name__ == '__main__':
     print('optimal nodes sequence: ' + str(optimal_nodes))
 
 
-################################################################################
+#7###############################################################################
 
 '''
 Disjoint Set Data Structures
@@ -863,7 +863,7 @@ print(classSet)
 
 '''
 
-################################################################################
+#8###############################################################################
 
 '''
 Travelling salesman problem is a Hamiltonian cycle with min cost. the bruteforce solution
@@ -925,7 +925,7 @@ ts = TravellingSalesman(distances, 0)
 print("Travelling Salesman Cost = ", ts.minCost(1,0)) #mask=1 means city is visited, pos=0 means we start from city 0    
 
 
-################################################################################
+#9###############################################################################
 
 '''
 Count total ways to reach destination from source in an undirected Graph. 
@@ -970,5 +970,122 @@ mtrx = [
 
 print("Number of possible pathes between 2 and 8 = ", countofPossiblePaths(mtrx, len(mtrx), 2, 8))
 
-################################################################################
+#10###############################################################################
+
+'''
+Check whether a given graph is Bipartite or not
+
+A Bipartite Graph is a graph whose vertices can be divided into two independent sets, U and V such 
+that every edge (u, v) either connects a vertex from U to V or a vertex from V to U. In other words, 
+for every edge (u, v), either u belongs to U and v to V, or u belongs to V and v to U. We can also say 
+that there is no edge that connects vertices of same set.
+
+A bipartite graph is possible if the graph coloring is possible using two colors such that vertices in a 
+set are colored with the same color. Note that it is possible to color a cycle graph with even cycle using two colors. 
+
+Following is a simple algorithm to find out whether a given graph is Birpartite or not using Breadth First Search (BFS)
+'''
+
+#11###############################################################################
+
+
+'''
+Snake and Ladder Problem
+
+Given a snake and ladder board, find the minimum number of dice throws required to reach the destination or 
+last cell from source or 1st cell. Basically, the player has total control over outcome of dice throw and wants 
+to find out minimum number of throws required to reach last cell.
+
+The idea is to consider the given snake and ladder board as a directed graph with number of vertices equal to the number 
+of cells in the board. The problem reduces to finding the shortest path in a graph. Every vertex of the graph has an edge 
+to next six vertices if next 6 vertices do not have a snake or ladder. If any of the next six vertices has a snake or ladder, 
+then the edge from current vertex goes to the top of the ladder or tail of the snake. Since all edges are of equal weight, 
+we can efficiently find shortest path using Breadth First Search of the graph.
+'''
+
+class MoveDest:
+    def __init__(self, v=0, d=0):
+        self.value = v
+        self.dist = d
+
+def minNumberOfDice(moves, n):
+    queue = []
+    visited = [False] * n
+    
+    queue.append(MoveDest(0,0))
+    visited[0] = True
+    
+    obj = MoveDest()
+    while queue:
+        obj = queue.pop(0)
+        current_valval , current_dist = obj.value, obj.dist
+        if current_valval == n-1:
+            break # reached the end
+        j = current_valval + 1
+        while j <= current_valval + 6 and j < n: # dice can have max 6 moves
+            if visited[j] == False:
+                visited[j] = True
+                obj_new = MoveDest()
+                obj_new.value = moves[j] if moves[j] != -1 else j
+                obj_new.dist = current_dist + 1
+                queue.append(obj_new)
+            j += 1
+    return current_dist
+        
+
+N = 30
+moves = [-1] * N 
+  
+# Ladders 
+moves[2] = 21
+moves[4] = 7
+moves[10] = 25
+moves[19] = 28
+  
+# Snakes 
+moves[26] = 0
+moves[20] = 8
+moves[16] = 3
+moves[18] = 6
+  
+print("Min Dice throws required is {0}". 
+       format(minNumberOfDice(moves, N))) 
+
+
+#12###############################################################################
+'''
+Check if a graph is strongly connected | Set 1 (Kosaraju using DFS)
+
+Given a directed graph, find out whether the graph is strongly connected or not. 
+A directed graph is strongly connected if there is a path between any two pair of vertices. 
+
+1) Initialize all vertices as not visited.
+
+2) Do a DFS traversal of graph starting from any arbitrary vertex v. If DFS traversal doesn’t 
+visit all vertices, then return false.
+
+3) Reverse all arcs (or find transpose or reverse of graph)
+
+4) Mark all vertices as not-visited in reversed graph.
+
+5) Do a DFS traversal of reversed graph starting from same vertex v (Same as step 2). If DFS traversal 
+doesn’t visit all vertices, then return false. Otherwise return true.
+'''
+
+#13###############################################################################
+'''
+K Centers Problem
+
+Given n cities and distances between every pair of cities, select k cities to place warehouses 
+(or ATMs or Cloud Server) such that the maximum distance of a city to a warehouse (or ATM or Cloud Server) is minimized.
+
+
+sol. assume you want to minize with 2 centers
+1. start from v=0, the first daatceter will be here
+2. find the farthest node. the sencond DC will be here
+3. calculate the min distance of remaining nodes from these DCs and save the state (min distance and locations)
+4. move to the next node and place the first DC there
+5. continue from step 2. if the pair has already been evaluated move to the next node and keep updating the state
+6. return the state
+'''
 

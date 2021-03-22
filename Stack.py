@@ -1,4 +1,4 @@
-
+#1##########################################################################################
 
 def HanoiTower(n, Tower1, Tower2, Tower3):
   if n==1:
@@ -13,7 +13,7 @@ def HanoiTower(n, Tower1, Tower2, Tower3):
 n=3
 HanoiTower(n, 'A', 'B', 'C')
 
-################################################################################
+#2###############################################################################
 # find the next greater element in an array. if there are none print -1
 #nextGreaterElement1 : time complexity is O(n^2)
 def nextGreaterElement1(arr):
@@ -58,7 +58,7 @@ arr = [4, 5, 2, 25, 20]
 print(nextGreaterElement1(arr))
 print(nextGreaterElement2(arr))
 
-################################################################################
+#3###############################################################################
 '''
 Given an expression string exp , write a program to examine whether the pairs
 and the orders of “{“,”}”,”(“,”)”,”[“,”]” are correct in exp.
@@ -96,7 +96,7 @@ exp2 = "[(])"
 print("Expression 1 is balanced? ", isBalanced(exp1))
 print("Expression 2 is balanced? ", isBalanced(exp2))
 
-################################################################################
+#4###############################################################################
 
 '''
 Infix expression:The expression of the form a op b. When an operator is
@@ -159,4 +159,4 @@ exp2 = "a+b*(c^d-e)^(f+g*h)-i" # abcd^e-fgh*+^*+i-
 print(infix2Postfix(exp1))
 print(infix2Postfix(exp2))
 
-################################################################################
+

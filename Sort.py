@@ -1,3 +1,5 @@
+#1##########################################################################################
+
 '''
 a sorting algorithm with O(n) is not algorithmically possible. however, since the best algorithm
 will take O(N lgN) time, if we have lgN number of processors, then we can complete the sorting
@@ -5,7 +7,7 @@ in O(N)
 '''
 
 
-################################################################################
+#2###############################################################################
 
 '''
 find the k's largest/smallest val
@@ -27,7 +29,7 @@ def first(touple):
 touples = ((2,3), (4,1), (1,9), (9,0), (5,7))
 print(sortElementWise(touples))
 
-################################################################################
+#3###############################################################################
 
 #sort a touple based on 1st AND 2nd element
 def sort(touples):
@@ -37,7 +39,7 @@ def sort(touples):
 touples = ((2,3), (4,1), (1,9), (9,0), (1,4), (2,2), (2,1), (5,7))
 print(sort(touples))
 
-################################################################################
+#4###############################################################################
 '''
 Given two sorted arrays, the task is to merge them in a sorted manner.
 '''
@@ -76,7 +78,7 @@ arr1.sort()
 arr2.sort()
 mergeArrays(arr1, arr2)
 
-################################################################################
+#5###############################################################################
 '''
 merge sort: divide the arr like a bin tree up to a point where arr has 1 element.
 then start merging the elements back-up into the tree to sort the entire arr.
@@ -123,7 +125,7 @@ def merger(l, r):
 arr = [38, 27, 43, 3, 9, 82, 10]
 print("Merge Sort Result : ", mergeSort(arr))
 
-################################################################################
+#6###############################################################################
 '''
 heap sort
 
@@ -169,7 +171,7 @@ def heapify(arr, i, n):
 arr = [9,2,5,3,8,10,6,5,4,7]
 print(heapSort(arr))    
 
-################################################################################
+#7###############################################################################
 '''
 Counting Sort:
 Counting sort is a sorting technique based on keys between a specific range. 
@@ -204,7 +206,7 @@ def countSort(arr, k):
 arr = [1,4,1,2,7,5,2]
 print("Count Sort output : ", countSort(arr, 9))
 
-################################################################################
+#8###############################################################################
 '''
 Radix Sort
 What if the elements are in range from 1 to n^2? 
@@ -248,7 +250,7 @@ def countingSort_util(arr, exp, k, n):
 arr = [170, 45, 75, 90, 802, 24, 2, 66]
 print("Count Sort output : ", radixSort(arr))
 
-################################################################################
+#9###############################################################################
 '''
 Interpolation Search:
 it's better than binary search if array is sorted and uniformly distributed.
@@ -276,7 +278,7 @@ def interpolationSearch(arr, key):
 
 arr = [2, 4, 5, 6, 8, 10, 11, 15, 16]
 print("Does key exisits in arr? ", interpolationSearch(arr, 10))
-################################################################################
+#10###############################################################################
 '''
 Search in an almost sorted array?
 Basically the element arr[i] can only be swapped with either 
@@ -291,19 +293,5 @@ The idea is to compare the key with middle 3 elements, if present then
 return the index. If not present, then compare the key with middle element 
 to decide whether to go in left half or right half.
 '''           
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
