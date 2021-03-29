@@ -15,10 +15,10 @@ set([(4, 5, 6), (7, 8, 9), (1, 2, 3)])
 this problem gives you an array with all zeros. you have to go through 
 the queries which provides you with a range and val. the
 val must be added to all the elements in that range. return the maximum 
-alue in the resulting arr.
+value in the resulting arr.
 
 sol: add the value to the begining of the range and substract val from 
-he end of the range + 1. then loop through the array and
+the end of the range + 1. then loop through the array and
 do a prefix addition (this will add the value for each of the elements 
 ithin expected range. +1 for end of range is because
 you only want to add values to elements in the range inclusively, so by 
@@ -64,6 +64,9 @@ def subArrays(arr):
 
 arr = [1, 2, 3] 
 print("sub-arrays = ", subArrays(arr)) 
+
+#find all sub strings
+subs = [s[i: j] for i in range(n) for j in range(i + 1, n + 1)]
 
 #3###############################################################################
 
@@ -133,7 +136,7 @@ the array eleemnts.
 
 Solution: you need to find the length of the array, n. and then find the GCD of n and d, gcd.
 you will create gcd number of sets. each set will contain values that are d elements appart.
-i.e. if array = 1,2,3,4,5,6,7,8,910,11,12; d=3; gcd=3; then
+i.e. if array = 1,2,3,4,5,6,7,8,9,10,11,12; d=3; gcd=3; then
 set1 = {1,4,7,10}
 set2 = {2,5,8,11}
 set3 = {3,6,9,12}
@@ -157,7 +160,7 @@ For example, for N = 4 and S = {1,2,3}, there are four solutions: {1,1,1,1},
 there are five solutions: {2,2,2,2,2}, {2,2,3,3}, {2,2,6}, {2,3,5} and {5,5}. 
 So the output should be 5.
 
-yu can see the recursive solution for better understanding the way to solve this, but
+you can see the recursive solution for better understanding the way to solve this, but
 we can do it with dynamic programming to save time O(mn)
 
 '''
@@ -184,15 +187,32 @@ def count1(S, m, n ):
   
     # count is sum of solutions (i)  
     # including S[m-1] (ii) excluding S[m-1] 
-    return count( S, m - 1, n ) + count( S, m, n-S[m-1] );
+    return count1( S, m - 1, n ) + count1( S, m, n-S[m-1] );
 
 def count2(S, m, n):
-    table = [0 for i in range(n+1)]
-    table[0] = 1
+    # We need n+1 rows as the table is constructed 
+    # in bottom up manner using the base case 0 value
+    # case (n = 0)
+    table = [[0 for x in range(m)] for x in range(n+1)]
+  
+    # Fill the entries for 0 value case (n = 0)
     for i in range(m):
-        for j in range(S[i], n+1):
-            table[j] += table[j-S[i]]
-    return table
+        table[0][i] = 1
+  
+    # Fill rest of the table entries in bottom up manner
+    for i in range(1, n+1):
+        for j in range(m):
+  
+            # Count of solutions including S[j]
+            x = table[i - S[j]][j] if i-S[j] >= 0 else 0
+  
+            # Count of solutions excluding S[j]
+            y = table[i][j-1] if j >= 1 else 0
+  
+            # total count
+            table[i][j] = x + y
+  
+    return table[n][m-1]
     
     
 arr = [1, 2, 3] 
