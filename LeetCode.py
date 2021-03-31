@@ -248,3 +248,30 @@ class Solution:
                     ways += fmap[fA] * fmap[fB] * (1 if fA == fB else 2)
             fmap[num], ans = ways, (ans + ways)
         return ans % 1000000007
+
+
+########################################################################################################################
+'''
+You are given a 2D array of integers envelopes where envelopes[i] = [wi, hi] represents the width and the height of an envelope.
+
+One envelope can fit into another if and only if both the width and height of one envelope are greater than the other envelope's 
+width and height.
+
+Return the maximum number of envelopes you can Russian doll (i.e., put one inside the other).
+
+sol: sort based on width. if width are equal prioritize the larger height.
+using bisect_left : it will show the left most index in dp where current height has to be based on a sorted list.
+for instance if dp = [3, 4, 7], and h = 8, idx = 3
+for instance if dp = [3, 4, 7], and h = 2, idx = 0
+for instance if dp = [3, 4, 7], and h = 4, idx = 1
+'''
+
+class Solution:
+    def maxEnvelopes(self, E: List[List[int]]) -> int:
+        E.sort(key=lambda x: (x[0], -x[1]))
+        dp = []
+        for _,height in E:
+            left = bisect_left(dp, height)
+            if left == len(dp): dp.append(height)
+            else: dp[left] = height
+        return len(dp)        
