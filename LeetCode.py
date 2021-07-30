@@ -1,4 +1,22 @@
 '''
+10 most common algo questions: https://www.youtube.com/watch?v=r1MXwyiGi_U&list=WL&index=6
+
+1- DFS: use recursion. mark the v as visited. loop through possible connection through v that are not visited and recurse
+2 - BFS: use a stack. take the starting node. add all its childeren, and see if we found the target. if not mark the node as visited, pop it out and add the childeren of the first node remaining in the stack
+3- matching bracket problem
+4- hash tables
+5- tracking two pointers/indexes: moving through a string to identify a palindrom 
+6- reversed linked list and handle loops
+7- sorting - quick/merge
+8- recursion
+9- construct a data structure
+10- binary search
+'''
+
+
+##############################################################################################################################
+
+'''
 Given an integer array nums, you need to find one continuous subarray that if you only sort this 
 subarray in ascending order, then the whole array will be sorted in ascending order.
 
@@ -275,3 +293,132 @@ class Solution:
             if left == len(dp): dp.append(height)
             else: dp[left] = height
         return len(dp)        
+
+########################################################################################################################
+'''
+Given an array of distinct integers nums and a target integer target, return the number of possible combinations that add up to target.
+
+The answer is guaranteed to fit in a 32-bit integer.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,3], target = 4
+Output: 7
+Explanation:
+The possible combination ways are:
+(1, 1, 1, 1)
+(1, 1, 2)
+(1, 2, 1)
+(1, 3)
+(2, 1, 1)
+(2, 2)
+(3, 1)
+Note that different sequences are counted as different combinations.
+Example 2:
+
+Input: nums = [9], target = 3
+Output: 0
+ ‍۱
+'''
+
+
+
+class Solution:
+    def combinationSum4(self, N: List[int], T: int) -> int:
+        dp = [0] * (T + 1)
+        dp[0] = 1
+        for i in range(1, T+1):
+            for num in N:
+                if num <= i: 
+                    dp[i] += dp[i-num]
+                    print(i,num, dp)
+                    
+        return dp[T]
+
+
+########################################################################################################################
+
+'''
+Give a string s, count the number of non-empty (contiguous) substrings that have the same number of 0's and 1's, and all the 0's and all the 1's in these substrings are grouped consecutively.
+
+Substrings that occur multiple times are counted the number of times they occur.
+
+Example 1:
+
+Input: "00110011"
+Output: 6
+Explanation: There are 6 substrings that have equal number of consecutive 1's and 0's: "0011", "01", "1100", "10", "0011", and "01".
+
+Notice that some of these substrings repeat and are counted the number of times they occur.
+
+Also, "00110011" is not a valid substring because all the 0's (and 1's) are not grouped together.
+'''
+
+
+class Solution:
+    def countBinarySubstrings(self, s: str) -> int:
+        curr, prev, ans = 1, 0, 0
+        for i in range(1, len(s)):
+            if s[i] == s[i-1]: curr += 1
+            else:
+                ans += min(curr, prev)
+                prev, curr = curr, 1
+        return ans + min(prev,curr) 
+
+########################################################################################################################
+
+               
+'''
+Matchsticks to Square
+
+
+You are given an integer array matchsticks where matchsticks[i] is the length of the ith matchstick. 
+You want to use all the matchsticks to make one square. You should not break any stick, but you can 
+link them up, and each matchstick must be used exactly one time.
+
+Return true if you can make this square and false otherwise.
+
+Example:
+
+Input: matchsticks = [1,1,2,2,2]
+Output: true
+Explanation: You can form a square with length 2, one side of the square came two sticks with length 1.
+
+https://www.youtube.com/watch?v=Amfd1bqZmVg
+
+'''
+
+class Solution:
+    def makesquare(self, matchsticks: List[int]) -> bool:
+        n = len(matchsticks)
+        circumvent = sum(matchsticks)        
+        if circumvent % 4 != 0:
+            return False
+        squareSide_size = circumvent//4
+        matchsticks.sort(reverse=True)#first check the larger sticks, it makes it faster
+        def dfs(a,b,c,d,i): #a,b,c,d are the sides that should be equal. i is the index of the stick
+            if i == n: # if all the matches are visited
+                if a==b==c==d:
+                    return True
+                return False
+            stick_i = matchsticks[i]
+            
+            #check to see if you add a stick to each side would it match the squareSide_size
+            if a + stick_i <= squareSide_size and dfs(a + stick_i, b, c, d, i+1):
+                return True
+            if b + stick_i <= squareSide_size and dfs(a, b + stick_i, c, d, i+1):
+                return True
+            if c + stick_i <= squareSide_size and dfs(a, b, c + stick_i, d, i+1):
+                return True
+            if d + stick_i <= squareSide_size and dfs(a, b, c, d + stick_i, i+1):
+                return True
+            
+            return False
+        
+        return dfs(0,0,0,0,0)
+            
+########################################################################################################################
+
+

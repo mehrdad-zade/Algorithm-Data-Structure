@@ -1,35 +1,59 @@
-#1##########################################################################################
+# 1$ ##########################################################################################
+'''
+Dijkstra: returns distance from starting point for all nodes
+    - have all nodes as unvisited
+    - have a list of nodes representing min distance from starting point
+    - from starting node find the distance to all possible immediate nodes
+    - mark current node as visited
+    - update the distance based on the sum of distance from the starting point
+    - then go to the node with smallest distance and repeat
 
-class Graph :
-    def __init__(self, graph) :
-        self.graph = graph
-        self.numOfVertices = len(graph)
+    https://www.youtube.com/watch?v=_lHSawdgXpI
+    
+'''    
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Jun 17 13:25:18 2021
 
-    def dijkstra(self, startingVertice) :
-        maxValue = 1000
-        shortestPathArray = [maxValue] * self.numOfVertices
-        visitedVertices = [False] * self.numOfVertices
+@author: mehrdadalemzadeh
+"""
+inf = float('inf')
+def dijkstra(graph, node):
+    n = len(graph)
+    visited = [False] * n
+    min_cost = [inf] * n # initial min cost for all nodes is infinity
+    min_cost[node] = 0 # the starting node's cost is zero
+    
+    while False in visited: # loop through untill all nodes are visited (connected graph) or the same min cost node is keep being chosen which suggest that some nodes are not reachable
+        visited[node] = True # once the distance from a node is being calculated mark it as visited
+        for v in range(n): # for all v's connected to current node, find if v is not visited and distance is lower than current cost update min_cost
+            if graph[node][v] != 0 and visited[v] == False and min_cost[node] + graph[node][v] < min_cost[v]:
+                min_cost[v] = min_cost[node] + graph[node][v]
+        
+        #get the next node to process. if it's the same as previous node then some nodes are not reachable or cost cannot go lower
+        temp = minCostUnvisited(min_cost, visited, n)
+        if temp == -1 or temp == node:
+            break
+        node = temp
+        print(min_cost)
+        
+    return min_cost
 
-        shortestPathArray[startingVertice] = 0#starting point has weight=0
-
-        for loop in range(self.numOfVertices) :
-
-            minValue = maxValue
-            minValueIndex = -1
-            for v in range(self.numOfVertices) :
-                if shortestPathArray[v] < minValue and visitedVertices[v] == False :
-                    minvalue = shortestPathArray[v]
-                    minValueIndex = v
-
-            visitedVertices[minValueIndex] = True
-
-
-            for v in range( .numOfVertices) :
-                if self.graph[minValueIndex][v] > 0 and visitedVertices[v] == False and shortestPathArray[v] > shortestPathArray[minValueIndex] + self.graph[minValueIndex][v] :
-                    shortestPathArray[v] = shortestPathArray[minValueIndex] + self.graph[minValueIndex][v]
-
-        print(shortestPathArray)
-
+def minCostUnvisited(min_cost, visited, n):
+    min_node = -1
+    
+    #find the firsunvisited node and asume it has the min cost
+    for v in range(n):
+        if visited[v] == False:
+            min_node = v
+            break
+    #find the min unvisted node
+    for v in range(n):
+        if visited[v] == False and min_cost[v] < min_cost[min_node]:
+            min_node = v
+    
+    return min_node
 
 graph = [[0, 4, 0, 0, 0, 0, 0, 8, 0],
         [4, 0, 8, 0, 0, 0, 0, 11, 0],
@@ -42,8 +66,9 @@ graph = [[0, 4, 0, 0, 0, 0, 0, 8, 0],
         [0, 0, 2, 0, 0, 0, 6, 7, 0]
         ];
 
-g = Graph(graph)
-g.dijkstra(0)
+#link to the depiction of above graph: https://www.geeksforgeeks.org/prims-minimum-spanning-tree-mst-greedy-algo-5/            
+    
+print(dijkstra(graph, 0))            
 
 #2###############################################################################
 
@@ -122,7 +147,7 @@ doesn’t contain a negative weight cycle. If we iterate through all edges one
 more time and get a shorter path for any vertex, then there is a negative weight 
 cycle.
 
-
+https://www.youtube.com/watch?v=lyw4FaxrwHg
     
 
 '''

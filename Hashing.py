@@ -17,7 +17,7 @@ def countOfAnagramSubstring(s):
             sb = ''.join(sorted(sb + s[j])) #from j to end keep adding the sub strings, sorted
             print ("sb = ", sb)
             mp[sb] = mp.get(sb, 0) #get the value of key sb, if doesn't exist return 0
-            print("map = ,mp")
+            print("map = ", mp)
             # increase count corresponding
             # to this dict array
             mp[sb] += 1 # ++ the value for the key. key is one of the possible substrings
