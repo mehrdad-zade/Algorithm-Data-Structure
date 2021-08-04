@@ -421,4 +421,85 @@ class Solution:
             
 ########################################################################################################################
 
+'''
+Subsets II
 
+Solution
+Given an integer array nums that may contain duplicates, return all possible subsets (the power set).
+
+The solution set must not contain duplicate subsets. Return the solution in any order.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,2]
+Output: [[],[1],[1,2],[1,2,2],[2],[2,2]]
+
+https://www.youtube.com/watch?v=RIn3gOkbhQE&t=1446s
+'''
+
+class Solution:
+    perm = list()
+    n = 0
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        self.n = len(nums)
+        nums.sort() # this will help to keep same int's together so our check for nums[i-1] == nums[i] can eliminate duplicate entries into the result
+        self.perm = [] # internally the program can call this method and copy.copy can bring in the values from previous run. not material to this problem
+        self.subsetsWithDup_util(0, nums, [])        
+        return self.perm
+        
+    def subsetsWithDup_util(self, start, nums, curr):
+        temp = copy.copy(curr) # another memory issue. if we don't use copy.copy it will return list of empty lists
+        self.perm.append(temp)
+        for i in range(start,self.n):
+            if i != start and nums[i-1] == nums[i]: continue # ignore if it's a duplicate
+            curr.append(nums[i]) # if it's not a duplicate add it to curr           
+            self.subsetsWithDup_util(i+1, nums, curr)
+            curr.remove(curr[-1]) # we want to try the initial curr with other values
+
+########################################################################################################################
+
+
+'''
+Path Sum II
+Given the root of a binary tree and an integer targetSum, return all root-to-leaf paths where each path's sum equals targetSum.
+
+A leaf is a node with no children.
+
+Input: root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22
+Output: [[5,4,11,2],[5,8,4,5]]
+
+https://www.youtube.com/watch?v=-mkM5FUaA5c
+'''
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    
+    pathsToTarget = list()
+    def pathSum(self, root: TreeNode, targetSum: int) -> List[List[int]]:   
+        self.pathsToTarget = []
+        def dfs(root, stack, _sum):
+            if root:
+                _sum += root.val
+                tmp = stack + [root.val]
+                if root.left:
+                    dfs(root.left, tmp, _sum)
+                if root.right:
+                    dfs(root.right, tmp, _sum)
+
+                if not root.left and not root.right and _sum == targetSum:
+                    self.pathsToTarget.append(tmp)
+
+        dfs(root, [], 0)
+        return self.pathsToTarget
+
+########################################################################################################################
+
+
+        

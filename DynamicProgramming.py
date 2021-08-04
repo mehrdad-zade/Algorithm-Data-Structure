@@ -1,3 +1,43 @@
+#0#########################
+'''
+fibo with DP
+
+we need to memoise the previous fibos. for instance:
+
+             fibo(5)
+            /       \
+        fibo(4)     fibo(3)
+        /     \         /  \
+    fibo(3)  fibo(2)   f(2) f(1)
+    /   \       / \     /
+    f(2) f(1)  f(1) f(1)...
+
+as you can see a lot of f(x's) are repeated. and instead if recalculating them
+we can memoise them to be reused in the recursion.
+
+O(n) -> DP
+O(n^2) -> without DP
+
+'''
+
+def fibo(n):
+    memo = [None] * n
+    return fibo_util(n, memo)
+
+def fibo_util(n, memo):
+    if memo[n-1] != None:
+        return memo[n-1]
+    if n == 1 or n == 2:
+        return 1
+
+    result = fibo(n-1) + fibo(n-2)
+    memo[n-1] = result
+
+    return result
+
+print(fibo(10))        
+
+
 #1##########################################################################################
 
 """
