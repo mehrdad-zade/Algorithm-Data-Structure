@@ -501,5 +501,40 @@ class Solution:
 
 ########################################################################################################################
 
+'''
+Flip String to Monotone Increasing
 
+A binary string is monotone increasing if it consists of some number of 0's (possibly none), followed by some number of 1's (also possibly none).
+
+You are given a binary string s. You can flip s[i] changing it from 0 to 1 or from 1 to 0.
+
+Return the minimum number of flips to make s monotone increasing.
+
+ 
+
+Example 1:
+
+Input: s = "00110"
+Output: 1
+Explanation: We flip the last digit to get 00111.
+https://www.youtube.com/watch?v=5ED9FWxZ7CY
+'''
+
+class Solution:
+    def minFlipsMonoIncr(self, s: str) -> int:
+        n = len(s)
+        ones = s.count('1')
+        zeros = 0
+        best = ones
+        
+        for i in range(n-1, -1, -1):
+            if s[i] == '0':
+                zeros += 1
+            else: #s[i] == '1'
+                ones -= 1 #if a ch is 1 no need to flip it and because we are adding zeros and ones to find the min compared to bes we should decrease it by 1
+            best = min(ones+zeros, best)
+        return best
+
+ ########################################################################################################################
+       
         
