@@ -575,4 +575,159 @@ class Solution:
  ########################################################################################################################
 
 
+'''
+Decode Ways
+
+Solution
+A message containing letters from A-Z can be encoded into numbers using the following mapping:
+
+'A' -> "1"
+'B' -> "2"
+...
+'Z' -> "26"
+To decode an encoded message, all the digits must be grouped then mapped back into letters using the reverse of the mapping above (there may be multiple ways). For example, "11106" can be mapped into:
+
+"AAJF" with the grouping (1 1 10 6)
+"KJF" with the grouping (11 10 6)
+Note that the grouping (1 11 06) is invalid because "06" cannot be mapped into 'F' since "6" is different from "06".
+
+Given a string s containing only digits, return the number of ways to decode it.
+
+The answer is guaranteed to fit in a 32-bit integer.
+
+ 
+
+Example 1:
+
+Input: s = "12"
+Output: 2
+Explanation: "12" could be decoded as "AB" (1 2) or "L" (12).
+Example 2:
+
+Input: s = "226"
+Output: 3
+Explanation: "226" could be decoded as "BZ" (2 26), "VF" (22 6), or "BBF" (2 2 6).
+'''        
+
+class Solution:
+    def numDecodings(self, s: str) -> int:
+        n = len(s)
+        memo = [None] * (n+1)
+        return self.numDecodings_util(s, n, memo)
+                
+    def numDecodings_util(self, s, k, memo):
+        if k == 0:
+            return 1
+        n = len(s)
+        if s[n-k] == '0':
+            return 0 # if string starts with 0, it's not a valid string
+        
+        '''
+        similar to fibo, if we have the value of numDecodings_util(s,k,memo), 
+        then we have saved it in memo and utilize it when required again; DP
+        '''
+        if memo[k] != None:
+            return memo[k] 
+        result = self.numDecodings_util(s, k-1, memo)#keep checking the last k-1 elements
+        if k >= 2 and int(s[n-k:n-k+2]) <= 26:
+            result += self.numDecodings_util(s, k-2, memo)#keep checking the last k-2 elements
+        memo[k] = result
+        
+        return result
+
+ ########################################################################################################################
+
+ '''
+Sum of Square Numbers
+
+Solution
+Given a non-negative integer c, decide whether there're two integers a and b such that a2 + b2 = c.
+
+ 
+
+Example 1:
+
+Input: c = 5
+Output: true
+Explanation: 1 * 1 + 2 * 2 = 5
+Example 2:
+
+Input: c = 3
+Output: false
+Example 3:
+
+Input: c = 4
+Output: true
+
+ '''
+
+import math
+class Solution:
+    def judgeSquareSum(self, c: int) -> bool:
+        left = 0
+        right = int(math.sqrt(c))
+        
+        while (left <= right):
+            temp = left * left + right * right
+            if temp == c:
+                return True
+            elif temp < c:
+                left += 1
+            else: #temp > c
+                right -= 1
+                
+        return False
+
+ ########################################################################################################################
+
+'''
+Find Minimum in Rotated Sorted Array
+
+Solution
+Suppose an array of length n sorted in ascending order is rotated between 1 and n times. For example, the array nums = [0,1,2,4,5,6,7] might become:
+
+[4,5,6,7,0,1,2] if it was rotated 4 times.
+[0,1,2,4,5,6,7] if it was rotated 7 times.
+Notice that rotating an array [a[0], a[1], a[2], ..., a[n-1]] 1 time results in the array [a[n-1], a[0], a[1], a[2], ..., a[n-2]].
+
+Given the sorted rotated array nums of unique elements, return the minimum element of this array.
+
+You must write an algorithm that runs in O(log n) time.
+
+ 
+
+Example 1:
+
+Input: nums = [3,4,5,1,2]
+Output: 1
+Explanation: The original array was [1,2,3,4,5] rotated 3 times.
+Example 2:
+
+Input: nums = [4,5,6,7,0,1,2]
+Output: 0
+Explanation: The original array was [0,1,2,4,5,6,7] and it was rotated 4 times.
+
+https://www.youtube.com/watch?v=IzHR_U8Ly6c
+'''
+
+class Solution:
+    def findMin(self, nums: List[int]) -> int:
+        n = len(nums)
+        if n == 0:
+            return -1
+        elif n == 1:
+            return nums[0]
+        l, r = 0, n-1
+        while(l < r):
+            mid = l+(r-l) // 2 # when only l is updated r//2 is wrong, you need l to get the correct size
+            if mid > 0 and nums[mid] < nums[mid-1]:
+                return nums[mid]
+            elif nums[l] <= nums[mid] and nums[mid] > nums[r]: # if the mid value is smaller than the first element, that mean the left side is sorted, and if mid value is bigger than the last element, it means right side is not sorted so min should be there. we move l to mid point and check a smaller array for the mid value
+                l = mid + 1
+            else:
+                r = mid 
+                
+        return nums[l]
+            
+    
         
