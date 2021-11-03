@@ -105,24 +105,23 @@ class Graph:
             path.pop()
         return False
 
-    def solveMaze(self, x, y) :
-
-        if x == self.numOfVertices - 1 and y == self.numOfVertices - 1 :
-            self.mazeSolution[x][y] = 1
+    def solveMaze(x, y, n, maze, sol):
+        if x == n-1 and y == n-1:
+            sol[x][y] = 1
             return True
 
-        if x >= 0 and x < self.numOfVertices and y >= 0 and y < self.numOfVertices and maze[x][y] == 1:
-            self.mazeSolution[x][y] = 1
+        if x >= 0 and x < n and y >=0 and y < n and maze[x][y] == 1:
+            sol[x][y] = 1
 
-            if self.solveMaze(x+1, y) :
+            if solveMaze(x+1, y, n, maze, sol):
                 return True
 
-            if self.solveMaze(x, y+1) :
+            if solveMaze(x, y+1, n, maze, sol):
                 return True
 
             #backtrack
-            self.mazeSolution[x][y] = 0
-        print(self.mazeSolution)
+            sol[x][y] = 0
+        print(sol)
         return False
 
     def nQueenProblem(self, col, numOfQueens) :
@@ -156,7 +155,7 @@ class Graph:
                 return False
             i -= 1
             j -= 1
-        #check diagonal - lower left
+        #check diagonal - lupper right
         i=row
         j=col
         while i < self.numOfVertices and j != 0 :

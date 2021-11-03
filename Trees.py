@@ -227,7 +227,7 @@ print("Tree is a heap : ", tree2.treeIsHeap())
       
  #4############################################################################################################################################
 '''
-    in irder traverse of a tree using recursion and stack
+    in-order traverse of a tree using recursion and stack
 '''
 
 class Node :

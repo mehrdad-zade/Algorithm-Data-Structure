@@ -284,45 +284,42 @@ recursive solution : Time Complexity: O(2^n).
 dynamic solution : Time Complexity: O(nw).
 '''
 
-def knapSack_recursive(value, weight, availableSize, numberOfItems):
-    if numberOfItems <= 0 or availableSize <= 0: 
+def knapsack(v, w, k, n): # O(2^n)
+    if k <= 0 or n <= 0:
         return 0
-    
-    if weight[numberOfItems-1] > availableSize:
-        return knapSack_recursive(value, weight, availableSize, numberOfItems-1)
-    
+    if w[n-1] > k:
+        return knapsack(v, w, k, n-1)
     else:
-        #nth item included or not
-        return max( 
-            value[numberOfItems-1] + knapSack_recursive( 
-                value, weight, availableSize-weight[numberOfItems-1], numberOfItems-1),  
-                knapSack_recursive(value, weight, availableSize, numberOfItems-1)) 
-            
-            
-            
-            
-def knapSack_dynamic(value, weight, availableSize, numberOfItems):
-    k = [[0 for i in range(availableSize+1)] for j in range(numberOfItems+1)]
-    
-    for i in range(numberOfItems+1):
-        for w in range(availableSize+1):
-            if i == 0 or w == 0:
-                k[i][w] = 0
-            elif weight[i-1] <= w:
-                k[i][w] = max(value[i-1] + k[i-1][w-weight[i-1]] , k[i-1][w])
-            else:
-                k[i][w] = k[i-1][w]
-                
-    return k[n][w]
-    
-    
-    
-val = [60, 100, 120] 
-wt = [10, 20, 30] 
-W = 49
-n = len(val) 
-print("Knapsack Recursize answer : ", knapSack_recursive(val, wt, W, n))
-print("Knapsack Dynamic answer : ", knapSack_dynamic(val, wt, W, n))
+        return max(
+            knapsack(v, w, k, n-1),
+            knapsack(v, w, k - w[n-1], n-1) + v[n-1]
+        )
+
+
+
+def knapsack_dp2(v, w, c, n):
+    if memo[n][c] != 0:
+        return memo[n][c]
+    if n <= 0 or c <= 0:
+        return 0
+    if w[n-1] > c:
+        return knapsack_dp2(v, w, c, n-1)
+    else:
+        memo[n][c] = max(
+            knapsack_dp2(v, w, c, n-1),
+            knapsack_dp2(v, w, c - w[n-1], n-1) + v[n-1]
+        )
+    return memo[n][c]
+
+
+v = [60, 100, 120] 
+w = [10, 20, 30] 
+c = 49
+n = len(v) 
+memo = [[0 for i in range(c+1)] for j in range(n+1)]
+print("Knapsack Recursize answer : ", knapsack(v, w, c, n))
+print("Knapsack DP answer : ", knapsack_dp2(v, w, c, n))
+
 
 #5##########################################################################################
 
@@ -458,41 +455,34 @@ target=6
 
 
 '''
-def subsetSum_rc(S, n, _sum):
-     if _sum == 0:
-         return True
-     if n == 0:
-         return False
-     if _sum > S[n-1]:
-         subsetSum_rc(S, n-1, _sum)
-    
-     return (subsetSum_rc(S, n-1, _sum) or subsetSum_rc(S, n-1, _sum - S[n-1]))
+def hasSubsetSum(s, n, t):
+    if t == 0:
+        return True
+    if n == 0:
+        return False
+    if s[n-1] > t:
+        return hasSubsetSum(s, n-1, t)
+    else:
+        return hasSubsetSum(s, n-1, t) or hasSubsetSum(s, n-1, t-s[n-1])
+
  
-def subsetSum_dp(S, n, _sum):
-    aux = [[False for i in range(_sum + 1)] for j in range(n + 1)]
-    
-    #if _sum == 0 return true
-    for i in range(n + 1):
-        aux[i][0] = True
-    
-    #if n == 0 return false
-    for i in range(_sum + 1):
-        aux[0][i] = False
-        
-    for i in range(1, n+1):
-        for j in range(1, _sum+1):
-            if j < S[i-1]:
-                aux[i][j] = aux[i-1][j]
-            else:
-                aux[i][j] = aux[i-1][j] or aux[i-1][j-S[i-1]]
-                
-    return aux[n][_sum]
+def hasSubsetSum(s, n, t):
+    if memo[n][t] != 0:
+        return memo[n][t]
+    if t == 0:
+        return True
+    if n == 0:
+        return False
+    if s[n-1] > t:
+        return hasSubsetSum(s, n-1, t)
+    else:
+        memo[n][t] = hasSubsetSum(s, n-1, t) or hasSubsetSum(s, n-1, t-s[n-1])
+    return memo[n][t]
 
-
-S = [3, 34, 4, 12, 5, 1] 
-_sum = 9
-n = len(S) 
-print("S has a sum of _sum (recursion)? ", subsetSum_rc(S, n, _sum))
-print("S has a sum of _sum (Dynamic Programming)? ", subsetSum_dp(S, n, _sum))
+s = [3, 34, 4, 12, 3, 1,3] 
+t = 9
+n = len(s)
+memo = [[0 for i in range(t+1)] for j in range(n+1)]
+print(hasSubsetSum(s, n, t))   
 
 
