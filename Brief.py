@@ -53,31 +53,24 @@ heap sorted     time : O(n lgn)    space: O(1)
 '''
 def heapSort(arr):
     n = len(arr)
-    #max heap
-    for i in range(n,-1,-1):
+    for i in range(n, -1, -1):
         heapify(arr, i, n)
-    
-    #keep largest at the end
     for i in range(n-1, 0, -1):
         arr[0], arr[i] = arr[i], arr[0]
-        heapify(arr, 0, i)
-    
+        heapify(arr, 0, i) 
     return arr
 
-
-    
-def heapify(arr, i, n):    
-    largest_index = i
+def heapify(arr, i, n):
+    largest_idx = i
     l = 2 * i + 1
     r = 2 * i + 2
-    if l < n and arr[largest_index] < arr[l]:
-        largest_index = l
-    if r < n and arr[largest_index] < arr[r]:
-        largest_index = r
-    if largest_index != i:
-        arr[largest_index], arr[i] = arr[i], arr[largest_index]
-        heapify(arr, largest_index, n)
-    
+    if l < n and arr[largest_idx] < arr[l]:
+        largest_idx = l
+    if r < n and arr[largest_idx] < arr[r]:
+        largest_idx = r
+    if i != largest_idx:
+        arr[i], arr[largest_idx] = arr[largest_idx], arr[i]
+        heapify(arr, largest_idx, n)   
     
 #test cases       
 arr = [9,2,5,3,8,10,6,5,4,7]
@@ -88,11 +81,14 @@ print(heapSort(arr))
 '''
 find unique premutations of a set
 '''
-from itertools import permutations
-x = [1,1,0,0]
-perm = set(permutations(x))
 
-print(perm)
+from itertools import permutations
+def perm(arr):
+    return list(set(permutations(arr)))
+
+#test case
+arr = [1,1,0,0]
+print(perm(arr))
 
 #4##############################################################################
 
@@ -101,9 +97,12 @@ find all subsets
 '''
 
 from itertools import chain, combinations
-class Solution:
-    def subsets(self, nums: List[int]) -> List[List[int]]:
-        return list(chain.from_iterable(combinations(nums, i) for i in range(len(nums)+1)))
+def subsets(arr):
+    return list(chain.from_iterable(combinations(arr, i) for i in range(len(arr)+1)))
+
+#test case
+arr[1,1,0,0]
+print(subsets(arr))
 #5##############################################################################
 
 '''
