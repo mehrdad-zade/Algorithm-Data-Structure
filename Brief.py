@@ -2,7 +2,7 @@
 sort using python lib
 '''
 def sort(touples):
-  return sorted(touples, key=lambda touples: (touples[0], touples[1]))
+    return sorted(touples, key=lambda touples: (touples[0], touples[1]))
 
 #Test Case
 touples = ((2,3), (4,1), (1,9), (9,0), (1,4), (2,2), (2,1), (5,7))
@@ -17,32 +17,30 @@ def mergeSort(arr):
     n = len(arr)
     if n == 1:
         return arr
-    m = int(n/2)
-    l = mergeSort(arr[:m])
-    r = mergeSort(arr[m:])    
-    return merger(l, r)
+    mid = n // 2
+    l = mergeSort(arr[:mid])
+    r = mergeSort(arr[mid:])
+    return merger(l,r)
 
 def merger(l, r):
-    len_l = len(l)
-    len_r = len(r)
-    j = 0
-    i = 0
-    temp = []
-    while i < len_l and j < len_r:
+    n, m = len(l), len(r)
+    i, j = 0, 0
+    res = []
+    while i < n and j < m:
         if l[i] <= r[j]:
-            temp.append(l[i])
+            res.append(l[i])
             i += 1
         else:
-            temp.append(r[j])
+            res.append(r[j])
             j += 1
-    while i < len_l:
-        temp.append(l[i])
+    while i < n:
+        res.append(l[i])
         i += 1
-    while j < len_r:
-        temp.append(r[j])
+    while j < m:
+        res.append(r[j])
         j += 1
-        
-    return temp
+    
+    return res
 
 #test case
 arr = [38, 27, 43, 3, 9, 82, 10]
