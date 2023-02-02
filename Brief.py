@@ -1,6 +1,6 @@
-'''
-sort using python lib
-'''
+#%%
+#sort using python lib
+
 def sort(touples):
     return sorted(touples, key=lambda touples: (touples[0], touples[1]))
 
@@ -10,9 +10,9 @@ print(sort(touples))
 
 #1##############################################################################
 
-'''
-Merge sort   time : O(n lgn)    space: O(n)
-'''
+#%%
+#Merge sort   time : O(n lgn)    space: O(n)
+
 def mergeSort(arr):
     n = len(arr)
     if n == 1:
