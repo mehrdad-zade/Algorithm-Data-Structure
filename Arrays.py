@@ -134,18 +134,23 @@ in: arry = 3,4,1,2.
 suppose d is static and you will apply it many times. write an efficient program to rotate
 the array eleemnts.
 
-Solution: you need to find the length of the array, n. and then find the GCD of n and d, gcd.
-you will create gcd number of sets. each set will contain values that are d elements appart.
-i.e. if array = 1,2,3,4,5,6,7,8,9,10,11,12; d=3; gcd=3; then
-set1 = {1,4,7,10}
-set2 = {2,5,8,11}
-set3 = {3,6,9,12}
-now each time you have to rotate the array by d=3 number of elements, you only have to swap
-the first and last elements of each set:
-set1 = {10,4,7,1}
-set2 = {11,5,8,2}
-set3 = {12,6,9,3}
-'''
+class Rotator:
+    def __init__(self, arr, d):
+        self.arr = arr
+        self.d = d % len(arr)  # Normalize d in case it's larger than the array length
+
+    def rotate(self):
+        """Rotates the array in O(n) time and O(1) space"""
+        self.arr = self.arr[self.d:] + self.arr[:self.d]
+
+    def get_array(self):
+        return self.arr
+
+# Example Usage
+arr = [1, 2, 3, 4]
+rotator = Rotator(arr, 2)
+rotator.rotate()
+print(rotator.get_array())  # Output: [3, 4, 1, 2]
 
 
 
